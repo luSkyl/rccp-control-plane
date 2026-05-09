@@ -1,0 +1,31 @@
+{
+  "machineTag": "RCCP_POLICY_BUNDLE_V1",
+  "generatedAt": "2026-05-09T08:34:00+08:00",
+  "version": "V1",
+  "canonicalEntry": "scripts/rccp/rccp.ps1",
+  "policyGoals": [
+    "thin-entry-only",
+    "declarative-route-selection",
+    "evidence-card-as-view",
+    "event-store-as-source-of-truth",
+    "no-ops-legacy-regression"
+  ],
+  "policySections": [
+    {
+      "name": "entryThickness",
+      "description": "rccp.ps1 only forwards parameters and dispatches to module/core actions"
+    },
+    {
+      "name": "routeSelection",
+      "description": "RiskClass and closeout route decisions are versioned and visible"
+    },
+    {
+      "name": "evidenceProjection",
+      "description": "latest json/md are projections from the event store, not authoritative state"
+    },
+    {
+      "name": "retiredArtifacts",
+      "description": "ops.ps1 and retired report paths remain tombstoned and must not return"
+    }
+  ]
+}

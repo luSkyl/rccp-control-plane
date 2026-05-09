@@ -1,0 +1,10 @@
+.rccp/
+.claude/
+docs/治理/最新态/
+evidence/latest/
+*.log
+*.bak
+*.local.*
+node_modules/
+target/
+dist/

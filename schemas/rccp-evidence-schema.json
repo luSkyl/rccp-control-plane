@@ -1,0 +1,30 @@
+{
+  "machineTag": "RCCP_EVIDENCE_SCHEMA_V1",
+  "generatedAt": "2026-05-09T08:34:00+08:00",
+  "version": "V1",
+  "requiredFields": [
+    "taskId",
+    "taskSlug",
+    "txId",
+    "eventId",
+    "eventType",
+    "projectionHash",
+    "policyRoute",
+    "generatedAt",
+    "evidencePaths"
+  ],
+  "optionalFields": [
+    "controlTxId",
+    "snapshotId",
+    "sidecarMode",
+    "blockerFingerprint",
+    "retryClass",
+    "ownerSession",
+    "sourceAction"
+  ],
+  "cardKinds": [
+    "RCCP Evidence Card",
+    "Agent Execution Card",
+    "Closeout Snapshot Card"
+  ]
+}

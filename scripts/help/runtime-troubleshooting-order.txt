@@ -1,0 +1,19 @@
+Runtime troubleshooting and real regression order
+1. Freeze or prove single writer first.
+2. Capture admission probe evidence before any recovery.
+3. Inspect `runtime-task-state.json` + `.claude/runtime/session-fence/*.json` + `.claude/runtime/治理/operation-event-latest.json`.
+4. Run `pwsh -NoProfile -ExecutionPolicy Bypass -File scripts/rccp/rccp.ps1 -Action runtime-writer-trace-report -At "<time>"`.
+5. Run `pwsh -NoProfile -ExecutionPolicy Bypass -File scripts/rccp/rccp.ps1 -Action admission-probe-normalize` if historical probes need trace/schema backfill.
+6. Run `pwsh -NoProfile -ExecutionPolicy Bypass -File scripts/rccp/rccp.ps1 -Action admission-reconcile -Task "<task>"`.
+7. Run `pwsh -NoProfile -ExecutionPolicy Bypass -File scripts/rccp/rccp.ps1 -Action task-reentry-probe -Task "<task>"` and confirm `phase1=PASS|SKIP` plus `phase2=PASS`.
+8. Run `pwsh -NoProfile -ExecutionPolicy Bypass -File scripts/rccp/rccp.ps1 -Action task-bootstrap -Task "<task>" -SuggestionId SUG-YYYYMMDD-NNN -TargetPaths <path1>,<path2>`.
+9. Run `pwsh -NoProfile -ExecutionPolicy Bypass -File scripts/rccp/rccp.ps1 -Action resume-check -Task "<task>"`.
+Hard rule: do not start from `task-bootstrap` while runtime or planning rewrite attribution is still missing.
+Hard rule: lane-switch/bootstrap entry actions (`task-start/task-bootstrap/task-switch/fast-exec/closeout-commit/closeout-fastlane/painpoint-p0-fastlane/drift-auto-heal/opensec-phaseb-fastlane/pre-commit-smoke*`) enforce pre-dispatch `task-reentry-probe`; phase2 must be PASS.
+Hard rule: pre-dispatch probe allows short TTL cache reuse only when `task + runtime/ledger/lane/staged fingerprint` is unchanged.
+Hard rule: if main runtime state looks idle but an unexpired foreign `session-fence` or any writer-lane still has an active owner, treat it as `SINGLE_WRITER_EVIDENCE_CONFLICT`; expired fences and self-held fences are evidence only.
+Hard rule: recovery may clear same-task foreign writer/fence residue only after proof shows no material ownership claim; live claim or multi-task evidence must continue to block.
+Hard rule: when `resume-check` fails on preflight/probe conditions, emit admission evidence first and fail closed; do not auto-pollute `pendingIssueTask` for probe-only failures.
+Hard rule: runtime writer single-writer guard must surface `foreign writer observed before acquire` with `ownerSession/ownerAction/ownerTxId`.
+Hard rule: admission/runtime command wording is maintained only in this file and `scripts/help/admission-runtime-actions.txt`; keep `scripts/README.md` as reference-plus-supplement only.
+Hard rule: evidence comes before recovery.

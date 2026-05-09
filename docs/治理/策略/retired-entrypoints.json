@@ -1,0 +1,19 @@
+{
+  "machineTag": "RCCP_RETIRED_ENTRYPOINTS_V1",
+  "generatedAt": "2026-05-09T08:34:00+08:00",
+  "retired": [
+    {
+      "path": "retired ops entry",
+      "currentTarget": "scripts/rccp/rccp.ps1",
+      "aliasPolicy": "tombstone_only",
+      "reason": "physical removal completed; RCCP canonical entry is scripts/rccp/rccp.ps1"
+    },
+    {
+      "path": "docs/汇报/近期优化.md",
+      "currentTarget": "docs/开发执行与优化进度.md",
+      "aliasPolicy": "redirect_to_current_fact_source",
+      "reason": "retired progress artifact; progress now lives in docs/开发执行与优化进度.md",
+      "semanticAliasPolicy": "active prompts, skills, templates, and scripts must use 当前进度事实源 or docs/开发执行与优化进度.md; use the retired path only in explicit tombstone or historical context"
+    }
+  ]
+}

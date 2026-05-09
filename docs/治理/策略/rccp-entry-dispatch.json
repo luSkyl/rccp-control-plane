@@ -1,0 +1,579 @@
+{
+  "machineTag": "RCCP_ENTRY_DISPATCH_V1",
+  "generatedAt": "2026-05-09T12:49:00+08:00",
+  "canonicalEntry": "scripts/rccp/rccp.ps1",
+  "leafParameterEnvelope": {
+    "commonParams": [
+      "Task",
+      "TargetPaths",
+      "EvidencePaths",
+      "SuggestionId",
+      "IssueId",
+      "ProgressId",
+      "RecentSection",
+      "Mode",
+      "GateProfile",
+      "BlueprintRoot",
+      "BlueprintPath",
+      "Strict",
+      "Json"
+    ]
+  },
+  "actionSurface": {
+    "readonly": [
+      "existing-capability-probe",
+      "existing-capability-answer-shape-check",
+      "final-recap-check",
+      "thin-entry-check",
+      "command-surface-resolve",
+      "runtime-authority-card",
+      "activeTask-legacy-lint",
+      "answer-authority-shape-check",
+      "legacy-chain-impact",
+      "ops-migration-manifest-check",
+      "ops-physical-removal-check",
+      "rccp-probes",
+      "probes",
+      "triplet-status-check",
+      "rccp-direct-writer-denylist-check",
+      "direct-writer-denylist-check",
+      "rccp-ops-facade-only-check",
+      "ops-facade-only-check",
+      "rccp-root-cause-bucket-regression-check",
+      "root-cause-bucket-regression-check",
+      "blueprint-governance-check",
+      "doc-check",
+      "doc-next-id",
+      "progress-section-transaction",
+      "fast-feedback-check",
+      "manual-interrupt-check",
+      "pre-commit-smoke",
+      "rccp-leaf-contract-check",
+      "leaf-contract-check",
+      "agent-prompt-contract-check",
+      "review-context-card",
+      "review-memory-replay",
+      "review-intent-route",
+      "review-intelligence-report",
+      "review-memory",
+      "review-intelligence-loop-regression",
+      "suggestion-current-state-projection",
+      "action-registry-check",
+      "governance-evidence-view",
+      "governance-doc-deduper",
+      "project-onboard",
+      "project-governance-check",
+      "rccp-kit-compat-check",
+      "kit-compat-check",
+      "kit-rollout-check",
+      "command-template-lint",
+      "rccp-kit-rollout-check"
+    ],
+    "write": [
+      "suggestion-triple-sync",
+      "suggestion-auto-converge",
+      "suggestion-backlog-reconcile",
+      "suggestion-backlog-cleanup",
+      "issue-retro",
+      "workspace-govern",
+      "progress-doc-auto-compact",
+      "governance-doc-auto-compact",
+      "auto-commit-govern"
+    ],
+    "runtimeWrite": [
+      "task-start",
+      "task-bootstrap",
+      "checkpoint",
+      "self-interrupt",
+      "resume-check",
+      "gate",
+      "ownership-claim",
+      "ownership-check"
+    ],
+    "closeoutWrite": [
+      "closeout-check",
+      "task-end",
+      "closeout-atomic",
+      "closeout-bench",
+      "closeout-atomic-regression",
+      "closeout-atomic-regression-lite"
+    ],
+    "historicalReferenceScopes": [
+      "docs/治理/归档",
+      "docs/汇报/近期优化.md",
+      "git show HEAD:scripts/ops.ps1"
+    ]
+  },
+  "leafContracts": {
+    "final-recap-check": {
+      "category": "closeout-critical",
+      "requiredParams": [
+        "Task",
+        "TargetPaths",
+        "EvidencePaths",
+        "SuggestionId",
+        "IssueId",
+        "ProgressId",
+        "RecentSection",
+        "Mode",
+        "GateProfile",
+        "BlueprintRoot",
+        "BlueprintPath",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "fast-feedback-check": {
+      "category": "success-path-critical",
+      "requiredParams": [
+        "MaxFeedbackMinutes",
+        "MaxFirstFeedbackSeconds",
+        "FeedbackLookbackHours",
+        "Strict"
+      ],
+      "allowUnknownArgs": false
+    },
+    "project-onboard": {
+      "category": "project-entry",
+      "requiredParams": [
+        "Task",
+        "ProjectConfigPath",
+        "ContractPath",
+        "ProjectRoot",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "project-governance-check": {
+      "category": "project-entry",
+      "requiredParams": [
+        "Task",
+        "ProjectConfigPath",
+        "ContractPath",
+        "ProjectRoot",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "rccp-kit-compat-check": {
+      "category": "project-entry",
+      "requiredParams": [
+        "Task",
+        "ProjectConfigPath",
+        "ContractPath",
+        "ProjectRoot",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "kit-compat-check": {
+      "category": "project-entry",
+      "requiredParams": [
+        "Task",
+        "ProjectConfigPath",
+        "ContractPath",
+        "ProjectRoot",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "command-template-lint": {
+      "category": "project-entry",
+      "requiredParams": [
+        "Task",
+        "CommandText",
+        "CommandPath",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "rccp-kit-rollout-check": {
+      "category": "project-entry",
+      "requiredParams": [
+        "Task",
+        "ProjectConfigPath",
+        "ContractPath",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "kit-rollout-check": {
+      "category": "project-entry",
+      "requiredParams": [
+        "Task",
+        "ProjectConfigPath",
+        "ContractPath",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "progress-section-transaction": {
+      "category": "document-transaction",
+      "requiredParams": [
+        "Task",
+        "ProgressId",
+        "TargetPaths",
+        "Mode",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "agent-prompt-contract-check": {
+      "category": "governance-readonly",
+      "requiredParams": [
+        "Mode",
+        "OutDir",
+        "Strict"
+      ],
+      "allowUnknownArgs": false
+    },
+    "review-context-card": {
+      "category": "review-intelligence",
+      "requiredParams": [
+        "Task",
+        "TargetPaths",
+        "EvidencePaths",
+        "SuggestionId",
+        "IssueId",
+        "ProgressId",
+        "RecentSection",
+        "Mode",
+        "GateProfile",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": true
+    },
+    "review-memory-replay": {
+      "category": "review-intelligence",
+      "requiredParams": [
+        "Task",
+        "TargetPaths",
+        "EvidencePaths",
+        "SuggestionId",
+        "IssueId",
+        "ProgressId",
+        "RecentSection",
+        "Mode",
+        "GateProfile",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "review-intent-route": {
+      "category": "review-intelligence",
+      "requiredParams": [
+        "Task",
+        "TargetPaths",
+        "EvidencePaths",
+        "SuggestionId",
+        "IssueId",
+        "ProgressId",
+        "RecentSection",
+        "Mode",
+        "GateProfile",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "review-intelligence-report": {
+      "category": "review-intelligence",
+      "requiredParams": [
+        "Task",
+        "TargetPaths",
+        "EvidencePaths",
+        "SuggestionId",
+        "IssueId",
+        "ProgressId",
+        "RecentSection",
+        "Mode",
+        "GateProfile",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "review-memory": {
+      "category": "review-intelligence",
+      "requiredParams": [
+        "Task",
+        "TargetPaths",
+        "EvidencePaths",
+        "SuggestionId",
+        "IssueId",
+        "ProgressId",
+        "RecentSection",
+        "Mode",
+        "GateProfile",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "review-intelligence-loop-regression": {
+      "category": "review-intelligence",
+      "requiredParams": [
+        "Task",
+        "TargetPaths",
+        "EvidencePaths",
+        "SuggestionId",
+        "IssueId",
+        "ProgressId",
+        "RecentSection",
+        "Mode",
+        "GateProfile",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "suggestion-current-state-projection": {
+      "category": "governance-readonly",
+      "requiredParams": [
+        "Task",
+        "TargetPaths",
+        "EvidencePaths",
+        "SuggestionId",
+        "IssueId",
+        "ProgressId",
+        "RecentSection",
+        "Mode",
+        "GateProfile",
+        "BlueprintRoot",
+        "BlueprintPath",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "action-registry-check": {
+      "category": "governance-readonly",
+      "requiredParams": [
+        "Task",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": true
+    },
+    "governance-evidence-view": {
+      "category": "governance-readonly",
+      "requiredParams": [
+        "Task",
+        "TargetPaths",
+        "EvidencePaths",
+        "ProgressId",
+        "RecentSection",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "governance-doc-deduper": {
+      "category": "governance-readonly",
+      "requiredParams": [
+        "Task",
+        "TargetPaths",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "runtime-authority-card": {
+      "category": "governance-readonly",
+      "requiredParams": [
+        "Task",
+        "Mode",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "activeTask-legacy-lint": {
+      "category": "governance-readonly",
+      "requiredParams": [
+        "Task",
+        "TargetPaths",
+        "Mode",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "answer-authority-shape-check": {
+      "category": "governance-readonly",
+      "requiredParams": [
+        "Task",
+        "AnswerText",
+        "AnswerPath",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "issue-retro": {
+      "category": "governance-write",
+      "requiredParams": [
+        "Task",
+        "IssueId",
+        "Title",
+        "Why",
+        "How",
+        "Prevent",
+        "Verify",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    }
+  },
+  "entryDispatch": {
+    "config-check": "scripts/check-config-health.ps1",
+    "backend-start": "scripts/start-backend.ps1",
+    "backend-stop": "scripts/stop-backend.ps1",
+    "frontend-start": "scripts/start-frontend.ps1",
+    "frontend-stop": "scripts/stop-frontend.ps1",
+    "backend-smoke": "scripts/smoke-backend.ps1",
+    "stack-reconcile": "scripts/start-stack-reconcile.ps1",
+    "stack-up-stable": "scripts/start-stack-up-stable.ps1",
+    "stack-stop": "scripts/stop-offline-stack.ps1",
+    "stack-reconcile-stop": "scripts/stop-offline-stack.ps1",
+    "alliance-sync-full": "scripts/run-alliance-cashout-full-sync.ps1",
+    "alliance-sync-increment": "scripts/run-alliance-cashout-increment-sync.ps1",
+    "alliance-sync-oneclick": "scripts/run-alliance-sync-oneclick.ps1",
+    "yj-full-sync-oneclick": "scripts/run-yj-full-sync-oneclick.ps1",
+    "env-ready-full-sync": "scripts/env-ready-full-sync.ps1",
+    "existing-capability-probe": "scripts/check-existing-capability-probe.ps1",
+    "existing-capability-answer-shape-check": "scripts/check-existing-capability-answer-shape.ps1",
+    "final-recap-check": "scripts/check-final-recap-check.ps1",
+    "rccp-leaf-contract-check": "scripts/check-rccp-leaf-contract.ps1",
+    "leaf-contract-check": "scripts/check-rccp-leaf-contract.ps1",
+    "agent-prompt-contract-check": "scripts/check-agent-prompt-contract.ps1",
+    "review-context-card": "scripts/invoke-review-context-card.ps1",
+    "review-memory-replay": "scripts/invoke-review-memory-replay.ps1",
+    "review-intent-route": "scripts/invoke-review-intent-route.ps1",
+    "review-intelligence-report": "scripts/invoke-review-intelligence-report.ps1",
+    "review-memory": "scripts/invoke-review-memory.ps1",
+    "review-intelligence-loop-regression": "scripts/check-review-intelligence-loop-regression.ps1",
+    "suggestion-current-state-projection": "scripts/check-suggestion-current-state-projection.ps1",
+    "action-registry-check": "scripts/check-rccp-action-registry.ps1",
+    "governance-evidence-view": "scripts/check-governance-evidence-view.ps1",
+    "governance-doc-deduper": "scripts/check-governance-doc-deduper.ps1",
+    "project-onboard": "scripts/check-project-onboard.ps1",
+    "project-governance-check": "scripts/check-project-governance.ps1",
+    "rccp-kit-compat-check": "scripts/check-rccp-kit-compat.ps1",
+    "kit-compat-check": "scripts/check-rccp-kit-compat.ps1",
+    "command-template-lint": "scripts/check-command-template-lint.ps1",
+    "rccp-kit-rollout-check": "scripts/check-rccp-kit-rollout.ps1",
+    "kit-rollout-check": "scripts/check-rccp-kit-rollout.ps1",
+    "blueprint-governance-check": "scripts/check-blueprint-governance.ps1",
+    "doc-check": "scripts/check-doc-consistency.ps1",
+    "doc-next-id": "scripts/get-next-doc-ids.ps1",
+    "progress-section-transaction": "scripts/check-progress-section-transaction.ps1",
+    "ops-migration-manifest-check": "scripts/check-ops-migration-manifest.ps1",
+    "ops-physical-removal-check": "scripts/check-ops-physical-removal.ps1",
+    "rccp-probes": "scripts/check-rccp-probes.ps1",
+    "probes": "scripts/check-rccp-probes.ps1",
+    "triplet-status-check": "scripts/check-triplet-status-consistency.ps1",
+    "rccp-direct-writer-denylist-check": "scripts/check-rccp-direct-writer-denylist.ps1",
+    "direct-writer-denylist-check": "scripts/check-rccp-direct-writer-denylist.ps1",
+    "rccp-ops-facade-only-check": "scripts/check-rccp-ops-facade-only.ps1",
+    "ops-facade-only-check": "scripts/check-rccp-ops-facade-only.ps1",
+    "rccp-root-cause-bucket-regression-check": "scripts/check-rccp-root-cause-bucket-regression.ps1",
+    "root-cause-bucket-regression-check": "scripts/check-rccp-root-cause-bucket-regression.ps1",
+    "thin-entry-check": "scripts/check-rccp-thin-entry.ps1",
+    "command-surface-resolve": "scripts/check-command-surface-resolve.ps1",
+    "runtime-authority-card": "scripts/check-runtime-authority-card.ps1",
+    "activeTask-legacy-lint": "scripts/check-active-task-legacy-lint.ps1",
+    "answer-authority-shape-check": "scripts/check-answer-authority-shape.ps1",
+    "legacy-chain-impact": "scripts/check-legacy-chain-impact.ps1",
+    "suggestion-triple-sync": "scripts/invoke-suggestion-triple-sync.ps1",
+    "issue-retro": "scripts/invoke-issue-retro.ps1",
+    "suggestion-backlog-check": "scripts/check-suggestion-backlog.ps1",
+    "suggestion-backlog-zero-check": "scripts/check-suggestion-backlog.ps1",
+    "suggestion-auto-converge": "scripts/auto-converge-accepted-suggestions.ps1",
+    "fast-feedback-check": "scripts/check-fast-feedback-sla.ps1",
+    "manual-interrupt-check": "scripts/check-manual-interrupt-trend.ps1",
+    "ux-baseline-metrics": "scripts/check-ux-baseline-metrics.ps1",
+    "workspace-govern": "scripts/auto-govern-workspace-cleanup.ps1",
+    "progress-doc-auto-compact": "scripts/progress-doc-auto-compact.ps1",
+    "governance-doc-auto-compact": "scripts/governance-doc-auto-compact.ps1",
+    "auto-commit-govern": "scripts/auto-commit-govern.ps1",
+    "crawler-replay-gate-scheduler": "scripts/run-crawler-replay-gate-scheduler.ps1",
+    "crawler-replay-scheduler-regression": "scripts/check-crawler-replay-scheduler-regression.ps1",
+    "governance-dashboard-v2": "scripts/run-governance-dashboard-v2.ps1",
+    "governance-daily-digest": "scripts/run-governance-daily-digest.ps1",
+    "weekly-governance-report": "scripts/run-weekly-governance-report.ps1",
+    "governance-issue-observatory": "scripts/build-governance-issue-observatory.ps1",
+    "regression-fastlane": "scripts/regression-fastlane.ps1",
+    "pre-commit-smoke": "scripts/spec-guard.ps1",
+    "skills-sync": "scripts/install-project-skills.ps1",
+    "receipt-reconcile": "scripts/check-receipt-lint.ps1",
+    "closeout-atomic-regression": "scripts/check-closeout-hardening-regression.ps1",
+    "closeout-atomic-regression-lite": "scripts/check-closeout-hardening-regression.ps1",
+    "self-heal-preacquire-regression": "scripts/check-self-heal-preacquire-window-regression.ps1",
+    "release-gate-regression-check": "scripts/check-release-gate-regression.ps1",
+    "release-gate-regression-diagnostic-check": "scripts/check-release-gate-regression-diagnostic-signature.ps1",
+    "release-gate-regression-drift-aggregate": "scripts/check-release-gate-regression-drift-aggregate.ps1",
+    "release-gate-regression-drift-alert": "scripts/check-release-gate-regression-drift-alert.ps1",
+    "closeout-bench": "scripts/benchmark-closeout-concurrency.ps1"
+  },
+  "coreActions": [
+    "init",
+    "declare",
+    "checkpoint",
+    "self-interrupt",
+    "status",
+    "trace",
+    "projection-check",
+    "evidence-card",
+    "execution-card",
+    "control-transaction",
+    "lease-acquire",
+    "gate",
+    "task-close",
+    "cutover-check",
+    "closeout-snapshot",
+    "closeout-fast",
+    "closeout-sidecar",
+    "blueprint-import",
+    "blueprint-projection-check",
+    "blueprint-stage-gate"
+  ],
+  "retiredArtifacts": [
+    "retired ops entry",
+    "docs/汇报/近期优化.md"
+  ]
+}

@@ -1,0 +1,140 @@
+{
+  "machineTag": "RCCP_PROJECT_CONTRACT_V1",
+  "generatedAt": "2026-05-09T14:56:00+08:00",
+  "version": "V1",
+  "canonicalEntry": "scripts/rccp/rccp.ps1",
+  "kitVersionField": "kitVersion",
+  "kitManifestPathField": "kitManifestPath",
+  "description": "Project-to-Governance-Kit thin configuration contract. The project owns runtime/evidence state; RCCP owns command entry, gates, and evidence schema.",
+  "requiredFields": [
+    "machineTag",
+    "schemaVersion",
+    "projectId",
+    "projectName",
+    "projectRoot",
+    "governanceProfile",
+    "fallbackProfile",
+    "kitVersion",
+    "kitManifestPath",
+    "contractVersion",
+    "runtimeRoot",
+    "checkpointLedgerRoot",
+    "evidenceRoot",
+    "blueprintRoot",
+    "strategyRoot",
+    "adapterList",
+    "adapterContracts",
+    "enabledActions",
+    "onboardingSopPath",
+    "ciRegressionWorkflow",
+    "rollbackDrill",
+    "sharedHotFiles",
+    "localEvidenceRoots",
+    "localStateRoots"
+  ],
+  "allowedProfiles": [
+    "embedded",
+    "external-kit",
+    "rollback-strict"
+  ],
+  "requiredActions": [
+    "project-onboard",
+    "project-governance-check",
+    "rccp-kit-compat-check",
+    "kit-compat-check",
+    "command-template-lint",
+    "rccp-kit-rollout-check",
+    "resume-check",
+    "ownership-check",
+    "closeout-atomic"
+  ],
+  "pathFields": [
+    {
+      "name": "projectRoot",
+      "mustExist": true,
+      "mustBeInsideProjectRoot": false
+    },
+    {
+      "name": "runtimeRoot",
+      "mustExist": true,
+      "mustBeInsideProjectRoot": true
+    },
+    {
+      "name": "checkpointLedgerRoot",
+      "mustExist": true,
+      "mustBeInsideProjectRoot": true
+    },
+    {
+      "name": "evidenceRoot",
+      "mustExist": true,
+      "mustBeInsideProjectRoot": true
+    },
+    {
+      "name": "blueprintRoot",
+      "mustExist": true,
+      "mustBeInsideProjectRoot": true
+    },
+    {
+      "name": "strategyRoot",
+      "mustExist": true,
+      "mustBeInsideProjectRoot": true
+    },
+    {
+      "name": "kitManifestPath",
+      "mustExist": true,
+      "mustBeInsideProjectRoot": true
+    },
+    {
+      "name": "onboardingSopPath",
+      "mustExist": true,
+      "mustBeInsideProjectRoot": true
+    },
+    {
+      "name": "ciRegressionWorkflow",
+      "mustExist": true,
+      "mustBeInsideProjectRoot": true
+    }
+  ],
+  "adapterContractRequiredFields": [
+    "name",
+    "version",
+    "requiredGates",
+    "ownedPaths",
+    "riskClass",
+    "fallbackProfile"
+  ],
+  "rollbackDrillRequiredFields": [
+    "fromProfile",
+    "toProfile",
+    "requiredActions",
+    "evidencePath"
+  ],
+  "profiles": {
+    "embedded": {
+      "description": "Governance Kit is embedded in the current repository; project-local runtime and evidence roots are authoritative.",
+      "rollbackProfile": "embedded"
+    },
+    "external-kit": {
+      "description": "Governance Kit is loaded as an external reusable kit while runtime/evidence stay under the project root.",
+      "rollbackProfile": "embedded"
+    },
+    "rollback-strict": {
+      "description": "Strict fallback lane for compatibility failures; only embedded local roots are accepted.",
+      "rollbackProfile": "embedded"
+    }
+  },
+  "invariants": [
+    "scripts/rccp/rccp.ps1 remains the canonical command entry",
+    "runtimeRoot, checkpointLedgerRoot, evidenceRoot, blueprintRoot, and strategyRoot must resolve inside projectRoot",
+    "writer lanes, checkpoint ledger, suggestion pool, issue records, and latest evidence are project-local",
+    "project-specific differences must be expressed by rccp.project.json or adapterList, not by hard-coding project facts into the governance kernel",
+    "every generated nextCommand for runtime or closeout actions must include an explicit -Task"
+  ],
+  "acceptanceEvidence": [
+    "project-onboard-latest.json",
+    "project-governance-check-latest.json",
+    "rccp-kit-compat-check-latest.json",
+    "command-template-lint-latest.json",
+    "rccp-kit-rollout-check-latest.json"
+  ]
+}

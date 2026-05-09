@@ -1,0 +1,13 @@
+{
+  "machineTag": "RCCP_ADAPTER_MINIMAL_V1",
+  "name": "minimal",
+  "description": "Minimal adapter for documentation-only or early adopter repositories.",
+  "requiredActions": [
+    "help",
+    "task-start",
+    "resume-check",
+    "ownership-check",
+    "closeout-atomic"
+  ],
+  "evidenceRoot": "evidence/latest"
+}

@@ -1,0 +1,33 @@
+{
+  "machineTag": "RCCP_AGENT_TASK_GRAPH_SCHEMA_V1",
+  "generatedAt": "2026-05-09T08:34:00+08:00",
+  "version": "V1",
+  "nodeTypes": [
+    "TaskDeclared",
+    "IntentClassified",
+    "PolicyRouteSelected",
+    "CheckpointRecorded",
+    "LeaseAcquired",
+    "WorkOrderIssued",
+    "CloseoutSnapshotCreated",
+    "CloseoutFastPassed",
+    "CloseoutSidecarPublished",
+    "EvidenceCardPublished"
+  ],
+  "edgeTypes": [
+    "parentTaskId",
+    "checkpointLineage",
+    "ownerSession",
+    "blockerFingerprint",
+    "projectedFrom",
+    "reducedBy",
+    "frozenBy"
+  ],
+  "invariants": [
+    "single_writer_for_shared_control_state",
+    "sub_agent_must_not_closeout",
+    "event_store_is_source_of_truth",
+    "projection_is_rebuildable",
+    "closeout_requires_frozen_snapshot"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "machineTag": "RCCP_KIT_MANIFEST_V1",
+  "generatedAt": "2026-05-09T17:30:00+08:00",
+  "kitVersion": "2026.05.09-v3b-rollout",
+  "contractVersion": "V1",
+  "canonicalEntry": "scripts/rccp/rccp.ps1",
+  "compatibility": {
+    "minimumProjectContractVersion": "V1",
+    "supportedProfiles": [
+      "embedded",
+      "external-kit",
+      "rollback-strict"
+    ],
+    "requiredActions": [
+      "project-onboard",
+      "project-governance-check",
+      "rccp-kit-compat-check",
+      "command-template-lint",
+      "rccp-kit-rollout-check",
+      "resume-check",
+      "ownership-check",
+      "closeout-atomic"
+    ]
+  },
+  "releaseNotes": [
+    "V3-B rollout hardening: project-local evidence roots are the default for project checks.",
+    "Adapter contracts are machine-checkable.",
+    "Rollback drill, CI regression, onboarding SOP, and command template lint are part of rollout acceptance."
+  ],
+  "evidence": {
+    "rolloutCheck": "docs/治理/最新态/rccp-kit-rollout-check-latest.json",
+    "pressureSummary": "docs/治理/最新态/rccp-kit-pressure-summary-latest.json",
+    "blueprintStageGate": "docs/治理/最新态/blueprint-stage-gate-latest.json"
+  }
+}

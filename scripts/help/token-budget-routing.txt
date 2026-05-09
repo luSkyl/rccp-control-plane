@@ -1,0 +1,36 @@
+Token-Minimal Control Plane routing help
+
+Purpose:
+- Keep the full governance chain intact while making the default prompt and command output small.
+- Load long rules only after the route requires them.
+
+Layers:
+- Resident constitution: AGENTS.md keeps task classes, gate routing, hard safety rules, and canonical recovery commands only.
+- On-demand help: script parameters, long templates, benchmark details, and low-frequency governance playbooks live in scripts/help/*, scripts/README.md, or adopted blueprints.
+- Compact evidence card: probes and gates print verdict/category/reason/nextCommand/evidencePath by default; full JSON remains in latest evidence files.
+
+Existing-capability answer path:
+- For existing capability, optimization, evaluation, or "perfect方案" requests, run existing-capability-probe before externalizing an answer.
+- DELTA_ANSWER_REQUIRED means answer with the delta template only: existing implementation confirmation, residual symptom, why it was not stopped, root-cause link, minimal repair action, verification evidence, and explicit non-goals.
+- Prefer evidence paths and one-line nextCommand values over reprinting long rule text or latest JSON content.
+- Expand details only on explicit request or blocker diagnosis.
+
+Default routing:
+- DISCUSS_ONLY and INTAKE_LITE are read-mostly. Do not run governance write chains unless the user explicitly asks to execute, land, enforce, or close.
+- MICRO_SAFE is for explicit 1-2 file low-risk edits; use edit -> readback verify -> report, skip suggestion intake and heavy closeout, and escalate to NORMAL/RISKY on any DB/security/release/script-sensitive path.
+- IMPLEMENT uses task-bootstrap with file-level TargetPaths, then Staged/Fast gates.
+- CLOSEOUT uses closeout-atomic with Mode=Staged and GateProfile=Fast for non-Issue work.
+- RELEASE, Issue closure, DB/schema, security, crawler contract, and production-impacting work may escalate to Deep or release-grade gates.
+
+Output contract:
+- Default visible output must fit a compact card:
+  verdict=<PASS|BLOCK|WARN>
+  category=<root-cause-or-route>
+  reason=<one-line>
+  nextCommand=<canonical-action>
+  evidencePath=<machine-readable-latest>
+- Use -Json or explicit file open only when the user asks for detailed evidence or when diagnosing a blocker.
+
+Acceptance:
+- governance-token-report must prove this help file, AGENTS routing, scripts README command surface, and RCCP evidence cards are all present.
+- Low-risk non-Issue closeout must remain Mode=Staged + GateProfile=Fast.
