@@ -14,9 +14,9 @@ repository is ready for the next step.
 > another project.
 
 This repository currently declares the `staging-extraction` distribution
-profile. Required leaf actions are enforced by `action-registry-check`; broader
-registered actions are advisory here and become mandatory only for a full-kit
-release check.
+profile. The public dispatch registry contains only leaf actions shipped in
+this repository. Project-specific and historical actions must be supplied by an
+adapter or a fuller downstream kit before they are registered.
 
 ## Why RCCP?
 
@@ -47,30 +47,22 @@ state from scattered logs.
   `resume-check`, `self-interrupt`, `closeout-check`, `task-end`, and
   `closeout-atomic`.
 - File-level ownership with `ownership-claim` and `ownership-check`.
-- Runtime recovery and attribution with `admission-reconcile`,
-  `single-writer-reconcile`, `task-reentry-probe`, and
-  `runtime-writer-trace-report`.
+- Runtime evidence projections through the bundled RCCP core actions.
 
 ### 2) Project adoption and compatibility
 
 - Project onboarding with `project-onboard`.
 - Policy and action dispatch validation with `project-governance-check`.
-- Kit compatibility and rollback-profile checks with `rccp-kit-compat-check`.
+- Kit compatibility checks with `rccp-kit-compat-check`.
 - Rollout acceptance with `rccp-kit-rollout-check`.
-- Command-template linting with `command-template-lint`.
 
 ### 3) Governance, routing, and documentation ops
 
 - Policy-backed routing through `policies/` and `adapters/`.
-- Scoped route planning with `ops-route-plan`.
-- Token-minimal governance reporting with `governance-token-report`.
-- Suggestion and workspace upkeep with `suggestion-triple-sync` and
-  `workspace-govern`.
 - Registry and load-order checks with `action-registry-check`,
   `thin-entry-check`, `memory-layer-contract-check`, and `memory-briefing`.
-- Checkpoint and planning consistency helpers such as
-  `checkpoint-integrity-check`, `checkpoint-reconcile`, and
-  `planning-context-probe`.
+- Existing-capability answer routing with `existing-capability-probe` and
+  `existing-capability-answer-shape-check`.
 
 ### 4) Evidence and audit surface
 
@@ -79,8 +71,8 @@ state from scattered logs.
   project-local `docs/治理/最新态/` style paths.
 - Read-only runtime inspection with `status`, `trace`, `evidence-card`, and
   `execution-card`.
-- Journal and projection reports such as
-  `runtime-admission-journal-check` and `runtime-admission-journal-replay`.
+- Latest evidence files for registry, leaf-contract, memory-layer, project,
+  kit, and closeout checks.
 
 ### 5) Release and hygiene
 
@@ -149,10 +141,10 @@ pwsh -NoProfile -File .\rccp.ps1 -Action project-onboard -Task "project-onboardi
 # Validate the project configuration and policy compatibility
 pwsh -NoProfile -File .\rccp.ps1 -Action project-governance-check -Task "project-onboarding" -ProjectConfigPath .\rccp.project.json
 
-# Validate the staging action registry and required leaf scripts
+# Validate the public action registry and shipped leaf scripts
 pwsh -NoProfile -File .\rccp.ps1 -Action action-registry-check -Task "project-onboarding" -Strict
 
-# Run the full-kit registry gate before publishing a complete kit
+# Run the full-kit registry gate before publishing
 pwsh -NoProfile -File .\rccp.ps1 -Action action-registry-check -Task "release-readiness" -RequireAllLeafScripts -Strict
 
 # Emit read-only context loading guidance
