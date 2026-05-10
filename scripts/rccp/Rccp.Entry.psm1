@@ -119,6 +119,8 @@ function Get-RccpEntryDispatchMap {
         "review-intent-route" = "scripts/invoke-review-intent-route.ps1"
         "review-intelligence-report" = "scripts/invoke-review-intelligence-report.ps1"
         "review-memory" = "scripts/invoke-review-memory.ps1"
+        "memory-layer-contract-check" = "scripts/check-memory-layer-contract.ps1"
+        "memory-briefing" = "scripts/invoke-memory-briefing.ps1"
         "review-intelligence-loop-regression" = "scripts/check-review-intelligence-loop-regression.ps1"
         "suggestion-current-state-projection" = "scripts/check-suggestion-current-state-projection.ps1"
         "action-registry-check" = "scripts/check-rccp-action-registry.ps1"
@@ -356,6 +358,7 @@ function Invoke-RccpLeafContractGate {
 function Test-RccpCloseoutMetadataArg {
     Param([Parameter(Mandatory = $true)][string]$Arg)
     return (
+        [string]::Equals([string]$Arg, "-NoSuggestionReason", [System.StringComparison]::OrdinalIgnoreCase) -or
         [string]::Equals([string]$Arg, "-SkillFlowTrace", [System.StringComparison]::OrdinalIgnoreCase) -or
         [string]::Equals([string]$Arg, "-NoSkillFlowReason", [System.StringComparison]::OrdinalIgnoreCase)
     )

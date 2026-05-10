@@ -61,6 +61,8 @@ state from scattered logs.
 - Token-minimal governance reporting with `governance-token-report`.
 - Suggestion and workspace upkeep with `suggestion-triple-sync` and
   `workspace-govern`.
+- Registry and load-order checks with `action-registry-check`,
+  `thin-entry-check`, `memory-layer-contract-check`, and `memory-briefing`.
 - Checkpoint and planning consistency helpers such as
   `checkpoint-integrity-check`, `checkpoint-reconcile`, and
   `planning-context-probe`.

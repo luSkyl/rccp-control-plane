@@ -56,6 +56,8 @@
       "review-intent-route",
       "review-intelligence-report",
       "review-memory",
+      "memory-layer-contract-check",
+      "memory-briefing",
       "review-intelligence-loop-regression",
       "suggestion-current-state-projection",
       "action-registry-check",
@@ -119,6 +121,16 @@
         "GateProfile",
         "BlueprintRoot",
         "BlueprintPath",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "thin-entry-check": {
+      "category": "governance-readonly",
+      "requiredParams": [
+        "Task",
+        "OutDir",
         "Strict",
         "Json"
       ],
@@ -334,6 +346,42 @@
       ],
       "allowUnknownArgs": false
     },
+    "memory-layer-contract-check": {
+      "category": "governance-readonly",
+      "requiredParams": [
+        "Task",
+        "TargetPaths",
+        "EvidencePaths",
+        "SuggestionId",
+        "IssueId",
+        "ProgressId",
+        "RecentSection",
+        "Mode",
+        "GateProfile",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "memory-briefing": {
+      "category": "governance-readonly",
+      "requiredParams": [
+        "Task",
+        "TargetPaths",
+        "EvidencePaths",
+        "SuggestionId",
+        "IssueId",
+        "ProgressId",
+        "RecentSection",
+        "Mode",
+        "GateProfile",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
     "review-intelligence-loop-regression": {
       "category": "review-intelligence",
       "requiredParams": [
@@ -486,6 +534,8 @@
     "review-intent-route": "scripts/invoke-review-intent-route.ps1",
     "review-intelligence-report": "scripts/invoke-review-intelligence-report.ps1",
     "review-memory": "scripts/invoke-review-memory.ps1",
+    "memory-layer-contract-check": "scripts/check-memory-layer-contract.ps1",
+    "memory-briefing": "scripts/invoke-memory-briefing.ps1",
     "review-intelligence-loop-regression": "scripts/check-review-intelligence-loop-regression.ps1",
     "suggestion-current-state-projection": "scripts/check-suggestion-current-state-projection.ps1",
     "action-registry-check": "scripts/check-rccp-action-registry.ps1",
