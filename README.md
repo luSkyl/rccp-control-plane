@@ -33,20 +33,54 @@ If something is blocked, RCCP reports a compact evidence card with the reason,
 the next command, and the evidence path instead of leaving the operator to infer
 state from scattered logs.
 
-## What You Get
+## Capability Map
 
-- **One command entry**: use `rccp.ps1` instead of calling many internal scripts
-  directly.
-- **Admission checks**: detect runtime drift, pending incidents, checkpoint
-  mismatches, and writer-lane conflicts before write paths begin.
-- **File-level ownership**: claim only the paths a task intends to edit, with
-  short-lived leases for multi-session safety.
-- **Policy-backed routing**: keep project-specific gates in policy bundles and
-  adapters instead of hard-coding them into every repository.
-- **Evidence-first closeout**: write compact JSON evidence that can be cited by
-  human summaries, dashboards, or downstream tools.
-- **Project adapters**: let Java/Vue, docs-only, or custom repositories attach
-  their own checks without changing RCCP core.
+### 1) Runtime and task control
+
+- One command entry through `rccp.ps1`.
+- Task lifecycle control with `task-start`, `task-bootstrap`, `checkpoint`,
+  `resume-check`, `self-interrupt`, `closeout-check`, `task-end`, and
+  `closeout-atomic`.
+- File-level ownership with `ownership-claim` and `ownership-check`.
+- Runtime recovery and attribution with `admission-reconcile`,
+  `single-writer-reconcile`, `task-reentry-probe`, and
+  `runtime-writer-trace-report`.
+
+### 2) Project adoption and compatibility
+
+- Project onboarding with `project-onboard`.
+- Policy and action dispatch validation with `project-governance-check`.
+- Kit compatibility and rollback-profile checks with `rccp-kit-compat-check`.
+- Rollout acceptance with `rccp-kit-rollout-check`.
+- Command-template linting with `command-template-lint`.
+
+### 3) Governance, routing, and documentation ops
+
+- Policy-backed routing through `policies/` and `adapters/`.
+- Scoped route planning with `ops-route-plan`.
+- Token-minimal governance reporting with `governance-token-report`.
+- Suggestion and workspace upkeep with `suggestion-triple-sync` and
+  `workspace-govern`.
+- Checkpoint and planning consistency helpers such as
+  `checkpoint-integrity-check`, `checkpoint-reconcile`, and
+  `planning-context-probe`.
+
+### 4) Evidence and audit surface
+
+- Compact evidence cards for status, admission, and closeout paths.
+- Machine-readable latest evidence under `evidence/latest/` and
+  project-local `docs/治理/最新态/` style paths.
+- Read-only runtime inspection with `status`, `trace`, `evidence-card`, and
+  `execution-card`.
+- Journal and projection reports such as
+  `runtime-admission-journal-check` and `runtime-admission-journal-replay`.
+
+### 5) Release and hygiene
+
+- Staging sanitization with `tools/sanitize-check.ps1 -Strict`.
+- Empty-repo installation with `install.ps1`.
+- Release readiness checks from `docs/release-checklist.md`.
+- Public boundary guidance for what should and should not be committed.
 
 ## When To Use It
 
@@ -150,6 +184,9 @@ Evidence is machine-readable first. A typical evidence card includes:
 ```
 
 Human summaries should cite evidence files instead of replacing them.
+
+Latest evidence is kept in `evidence/latest/` for the repository itself, while
+adopter projects are expected to keep their own project-local evidence roots.
 
 ### Closeout
 
