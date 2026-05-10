@@ -4,6 +4,7 @@ Param(
     [string]$ActionName = "",
     [string]$DispatchPath = "docs/治理/策略/rccp-entry-dispatch.json",
     [string]$OutDir = "docs/治理/最新态",
+    [switch]$RequireAllLeafScripts,
     [switch]$Strict,
     [switch]$Json
 )
@@ -156,12 +157,25 @@ if (-not $contractMap.ContainsKey("final-recap-check")) {
     }
 }
 
+$distributionProfileName = "unspecified"
+$requiredLeafActions = @()
+if ($null -ne $dispatchDoc.distributionProfile) {
+    $distributionProfileName = [string](Get-PropertyValue -Object $dispatchDoc.distributionProfile -Name "name")
+    $requiredLeafActions = @((Get-PropertyValue -Object $dispatchDoc.distributionProfile -Name "requiredLeafActions") | ForEach-Object { [string]$_ } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })
+}
+if ($requiredLeafActions.Count -eq 0) {
+    $requiredLeafActions = @($contractMap.Keys)
+}
+
 $actions = @()
 if (-not [string]::IsNullOrWhiteSpace($ActionName)) {
     $actions = @($ActionName)
 }
-else {
+elseif ($RequireAllLeafScripts) {
     $actions = @($contractMap.Keys)
+}
+else {
+    $actions = @($requiredLeafActions)
 }
 
 $results = New-Object System.Collections.Generic.List[object]
@@ -208,6 +222,8 @@ $summary = [ordered]@{
     pass = [bool]$pass
     actionName = [string]$ActionName
     dispatchPath = $DispatchPath
+    distributionProfile = [string]$distributionProfileName
+    requireAllLeafScripts = [bool]$RequireAllLeafScripts
     commonParameterEnvelope = @($envelope)
     checkedCount = @($results.ToArray()).Count
     failedCount = $failed.Count

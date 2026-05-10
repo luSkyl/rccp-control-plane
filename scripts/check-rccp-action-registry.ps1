@@ -2,6 +2,7 @@
 Param(
     [string]$Task = "action-registry-check",
     [string]$OutDir = "docs/治理/最新态",
+    [switch]$RequireAllLeafScripts,
     [switch]$Strict,
     [switch]$Json,
     [object[]]$RemainingArgs = @()
@@ -87,6 +88,7 @@ Add-Check -Checks $checks -Name "entry-script" -Ok $entryPathExists -Detail "scr
 $docsComparable = [ordered]@{
     machineTag = [string]$docsDispatch.machineTag
     canonicalEntry = [string]$docsDispatch.canonicalEntry
+    distributionProfile = $docsDispatch.distributionProfile
     leafParameterEnvelope = $docsDispatch.leafParameterEnvelope
     actionSurface = $docsDispatch.actionSurface
     leafContracts = $docsDispatch.leafContracts
@@ -97,6 +99,7 @@ $docsComparable = [ordered]@{
 $policyComparable = [ordered]@{
     machineTag = [string]$policyDispatch.machineTag
     canonicalEntry = [string]$policyDispatch.canonicalEntry
+    distributionProfile = $policyDispatch.distributionProfile
     leafParameterEnvelope = $policyDispatch.leafParameterEnvelope
     actionSurface = $policyDispatch.actionSurface
     leafContracts = $policyDispatch.leafContracts
@@ -116,6 +119,25 @@ if ($null -ne $entryDispatch) {
     $registeredActions = @($entryDispatch.PSObject.Properties.Name)
 }
 
+$distributionProfileName = [string](Get-ObjectPropertyValue -Object $docsDispatch.distributionProfile -Name "name")
+if ([string]::IsNullOrWhiteSpace($distributionProfileName)) { $distributionProfileName = "unspecified" }
+$requiredLeafActions = @()
+if ($null -ne $docsDispatch.distributionProfile) {
+    $requiredLeafActions = @((Get-ObjectPropertyValue -Object $docsDispatch.distributionProfile -Name "requiredLeafActions") | ForEach-Object { [string]$_ } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })
+}
+if ($requiredLeafActions.Count -eq 0) {
+    $requiredLeafActions = @(
+        "final-recap-check",
+        "thin-entry-check",
+        "rccp-leaf-contract-check",
+        "leaf-contract-check",
+        "memory-layer-contract-check",
+        "memory-briefing",
+        "action-registry-check"
+    )
+}
+Add-Check -Checks $checks -Name "distribution-profile" -Ok (-not [string]::IsNullOrWhiteSpace($distributionProfileName)) -Detail ("profile={0}; requiredLeafActions={1}" -f $distributionProfileName, $requiredLeafActions.Count)
+
 $missingScripts = New-Object System.Collections.Generic.List[string]
 foreach ($action in @($registeredActions)) {
     $target = [string](Get-ObjectPropertyValue -Object $entryDispatch -Name $action)
@@ -124,16 +146,38 @@ foreach ($action in @($registeredActions)) {
         $missingScripts.Add(("{0} -> {1}" -f $action, $target)) | Out-Null
     }
 }
+$missingRequiredScripts = New-Object System.Collections.Generic.List[string]
+foreach ($action in @($requiredLeafActions)) {
+    $target = [string](Get-ObjectPropertyValue -Object $entryDispatch -Name $action)
+    if ([string]::IsNullOrWhiteSpace($target)) {
+        $missingRequiredScripts.Add(("{0} -> MISSING_DISPATCH_TARGET" -f $action)) | Out-Null
+        continue
+    }
+    $fullTarget = if ([System.IO.Path]::IsPathRooted($target)) { $target } else { Join-Path $repoRoot $target }
+    if (-not (Test-Path -LiteralPath $fullTarget -PathType Leaf)) {
+        $missingRequiredScripts.Add(("{0} -> {1}" -f $action, $target)) | Out-Null
+    }
+}
 $dispatchTargetsDetail = if ($missingScripts.Count -eq 0) {
     "all registered actions resolve to leaf scripts"
+} elseif ($RequireAllLeafScripts) {
+    ("{0} registered actions are missing leaf scripts under full-kit enforcement" -f $missingScripts.Count)
 } else {
-    ("{0} missing leaf scripts are expected in staged extraction and are reported as advisory" -f $missingScripts.Count)
+    ("{0} optional registered actions are missing leaf scripts under {1}; required actions are checked separately" -f $missingScripts.Count, $distributionProfileName)
 }
-Add-Check -Checks $checks -Name "dispatch-targets" -Ok $true -Detail $dispatchTargetsDetail
+$requiredTargetsDetail = if ($missingRequiredScripts.Count -eq 0) {
+    "all required leaf actions resolve to scripts"
+} else {
+    [string]::Join("; ", @($missingRequiredScripts.ToArray()))
+}
+Add-Check -Checks $checks -Name "required-dispatch-targets" -Ok ($missingRequiredScripts.Count -eq 0) -Detail $requiredTargetsDetail
+Add-Check -Checks $checks -Name "dispatch-targets" -Ok (-not $RequireAllLeafScripts -or $missingScripts.Count -eq 0) -Detail $dispatchTargetsDetail
 
 $actionRegistryOk = (
     $mirrorOk -and
     $entryPathExists -and
+    ($missingRequiredScripts.Count -eq 0) -and
+    (-not $RequireAllLeafScripts -or $missingScripts.Count -eq 0) -and
     ([string]::Equals([string]$docsDispatch.machineTag, "RCCP_ENTRY_DISPATCH_V1", [System.StringComparison]::OrdinalIgnoreCase))
 )
 Add-Check -Checks $checks -Name "registry-health" -Ok $actionRegistryOk -Detail "registered actions, mirror state, and script coverage"
@@ -148,9 +192,14 @@ $report = [ordered]@{
     docsDispatchPath = "docs/治理/策略/rccp-entry-dispatch.json"
     policyDispatchPath = "policies/rccp-entry-dispatch.json"
     entryPath = "scripts/rccp/rccp.ps1"
+    distributionProfile = [string]$distributionProfileName
+    requireAllLeafScripts = [bool]$RequireAllLeafScripts
     registeredActionCount = [int]@($registeredActions).Count
+    requiredLeafActionCount = [int]$requiredLeafActions.Count
     missingScriptCount = [int]$missingScripts.Count
+    missingRequiredScriptCount = [int]$missingRequiredScripts.Count
     missingScripts = @($missingScripts.ToArray())
+    missingRequiredScripts = @($missingRequiredScripts.ToArray())
     checks = @($checks.ToArray())
     evidencePath = "docs/治理/最新态/action-registry-check-latest.json"
     nextCommand = "pwsh -NoProfile -ExecutionPolicy Bypass -File scripts/rccp/rccp.ps1 -Action thin-entry-check -Task `"$Task`" -Strict"
@@ -165,7 +214,9 @@ $md.Add(("- task: {0}" -f $report.task)) | Out-Null
 $verdictText = if ([bool]$report.pass) { "PASS" } else { "FAIL" }
 $md.Add(("- verdict: {0}" -f $verdictText)) | Out-Null
 $md.Add(("- registeredActionCount: {0}" -f $report.registeredActionCount)) | Out-Null
+$md.Add(("- requiredLeafActionCount: {0}" -f $report.requiredLeafActionCount)) | Out-Null
 $md.Add(("- missingScriptCount: {0}" -f $report.missingScriptCount)) | Out-Null
+$md.Add(("- missingRequiredScriptCount: {0}" -f $report.missingRequiredScriptCount)) | Out-Null
 $md.Add("") | Out-Null
 $md.Add("## Checks") | Out-Null
 foreach ($item in @($checks.ToArray())) {
@@ -173,6 +224,18 @@ foreach ($item in @($checks.ToArray())) {
 }
 $md.Add("") | Out-Null
 $md.Add("## Missing Scripts") | Out-Null
+$md.Add("") | Out-Null
+$md.Add("### Required") | Out-Null
+if ($missingRequiredScripts.Count -eq 0) {
+    $md.Add("- none") | Out-Null
+}
+else {
+    foreach ($item in @($missingRequiredScripts.ToArray())) {
+        $md.Add(("- {0}" -f $item)) | Out-Null
+    }
+}
+$md.Add("") | Out-Null
+$md.Add("### Registered") | Out-Null
 if ($missingScripts.Count -eq 0) {
     $md.Add("- none") | Out-Null
 }

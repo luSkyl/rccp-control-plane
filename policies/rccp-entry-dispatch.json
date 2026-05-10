@@ -2,6 +2,28 @@
   "machineTag": "RCCP_ENTRY_DISPATCH_V1",
   "generatedAt": "2026-05-09T12:49:00+08:00",
   "canonicalEntry": "scripts/rccp/rccp.ps1",
+  "distributionProfile": {
+    "name": "staging-extraction",
+    "description": "Minimal public RCCP staging extraction. Required leaf actions must be present; broader registered actions may be supplied by full-kit adopters.",
+    "requiredLeafActions": [
+      "existing-capability-probe",
+      "existing-capability-answer-shape-check",
+      "final-recap-check",
+      "thin-entry-check",
+      "rccp-leaf-contract-check",
+      "leaf-contract-check",
+      "memory-layer-contract-check",
+      "memory-briefing",
+      "action-registry-check",
+      "project-onboard",
+      "project-governance-check",
+      "rccp-kit-compat-check",
+      "kit-compat-check",
+      "rccp-kit-rollout-check",
+      "kit-rollout-check"
+    ],
+    "optionalLeafActionPolicy": "Registered actions outside requiredLeafActions are advisory in staging-extraction and mandatory only when action-registry-check runs with -RequireAllLeafScripts."
+  },
   "leafParameterEnvelope": {
     "commonParams": [
       "Task",
@@ -107,6 +129,30 @@
     ]
   },
   "leafContracts": {
+    "existing-capability-probe": {
+      "category": "governance-readonly",
+      "requiredParams": [
+        "Task",
+        "Why",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "existing-capability-answer-shape-check": {
+      "category": "governance-readonly",
+      "requiredParams": [
+        "Task",
+        "Why",
+        "AnswerText",
+        "AnswerPath",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
     "final-recap-check": {
       "category": "closeout-critical",
       "requiredParams": [
@@ -135,6 +181,30 @@
         "Json"
       ],
       "allowUnknownArgs": false
+    },
+    "rccp-leaf-contract-check": {
+      "category": "governance-readonly",
+      "requiredParams": [
+        "Task",
+        "ActionName",
+        "DispatchPath",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": true
+    },
+    "leaf-contract-check": {
+      "category": "governance-readonly",
+      "requiredParams": [
+        "Task",
+        "ActionName",
+        "DispatchPath",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": true
     },
     "fast-feedback-check": {
       "category": "success-path-critical",

@@ -13,6 +13,11 @@ repository is ready for the next step.
 > the sanitization check before publishing or embedding this repository in
 > another project.
 
+This repository currently declares the `staging-extraction` distribution
+profile. Required leaf actions are enforced by `action-registry-check`; broader
+registered actions are advisory here and become mandatory only for a full-kit
+release check.
+
 ## Why RCCP?
 
 Modern software repositories are no longer edited by one person in one terminal.
@@ -143,6 +148,15 @@ pwsh -NoProfile -File .\rccp.ps1 -Action project-onboard -Task "project-onboardi
 
 # Validate the project configuration and policy compatibility
 pwsh -NoProfile -File .\rccp.ps1 -Action project-governance-check -Task "project-onboarding" -ProjectConfigPath .\rccp.project.json
+
+# Validate the staging action registry and required leaf scripts
+pwsh -NoProfile -File .\rccp.ps1 -Action action-registry-check -Task "project-onboarding" -Strict
+
+# Run the full-kit registry gate before publishing a complete kit
+pwsh -NoProfile -File .\rccp.ps1 -Action action-registry-check -Task "release-readiness" -RequireAllLeafScripts -Strict
+
+# Emit read-only context loading guidance
+pwsh -NoProfile -File .\rccp.ps1 -Action memory-briefing -Task "project-onboarding"
 
 # Run a single closeout chain when a task is ready to finish
 pwsh -NoProfile -File .\rccp.ps1 -Action closeout-atomic -Task "update-readme" -TargetPaths "README.md" -Mode Staged -GateProfile Fast

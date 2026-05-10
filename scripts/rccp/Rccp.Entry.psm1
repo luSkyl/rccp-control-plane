@@ -494,6 +494,11 @@ function Invoke-RccpLeafAction {
                 }
                 $translated.Add([string]$arg) | Out-Null
             }
+            if ((-not $hasRequestTextArg) -and -not [string]::IsNullOrWhiteSpace([string]$BoundArgs.Why)) {
+                $translated.Add("-Why") | Out-Null
+                $translated.Add([string]$BoundArgs.Why) | Out-Null
+                $hasRequestTextArg = $true
+            }
             if ((-not $hasRequestTextArg) -and -not [string]::IsNullOrWhiteSpace([string]$BoundArgs.Objective)) {
                 $translated.Add("-Why") | Out-Null
                 $translated.Add([string]$BoundArgs.Objective) | Out-Null
