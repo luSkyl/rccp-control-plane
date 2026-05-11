@@ -10,6 +10,10 @@ Param(
     [string]$ActionTaken = "",
     [Alias("RootCauseClosed")]
     [string]$RootCauseStatus = "",
+    [Alias("ExistingMechanismGap")]
+    [string]$MechanismGap = "",
+    [Alias("RecurrencePrevention", "Prevent")]
+    [string]$Prevention = "",
     [string]$TemporaryBypass = "",
     [string]$OpenRisk = "",
     [string[]]$TargetPaths = @(),
@@ -62,6 +66,8 @@ function New-RecapIssue {
         [string]$PLevel,
         [string]$Resolution,
         [string]$RootClosed,
+        [string]$MechanismGap,
+        [string]$Prevention,
         [string]$Bypass,
         [string]$Risk,
         [string[]]$Evidence = @()
@@ -71,6 +77,8 @@ function New-RecapIssue {
         level = [string]$PLevel
         actionTaken = [string]$Resolution
         rootCauseClosed = [string]$RootClosed
+        mechanismGap = [string]$MechanismGap
+        recurrencePrevention = [string]$Prevention
         temporaryBypass = [string]$Bypass
         openRisk = [string]$Risk
         evidencePaths = @($Evidence | Where-Object { -not [string]::IsNullOrWhiteSpace([string]$_) })
@@ -138,7 +146,7 @@ function Test-HasLaterSuccess {
 function Convert-IssueToMarkdownRow {
     Param([object]$Issue)
     $evidence = if (@($Issue.evidencePaths).Count -gt 0) { [string]::Join("<br>", @($Issue.evidencePaths)) } else { "N/A" }
-    return "| $($Issue.problem) | $($Issue.level) | $($Issue.actionTaken) | $($Issue.rootCauseClosed) | $($Issue.temporaryBypass) | $($Issue.openRisk) | $evidence |"
+    return "| $($Issue.problem) | $($Issue.level) | $($Issue.actionTaken) | $($Issue.rootCauseClosed) | $($Issue.mechanismGap) | $($Issue.recurrencePrevention) | $($Issue.temporaryBypass) | $($Issue.openRisk) | $evidence |"
 }
 
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
@@ -155,9 +163,11 @@ if (-not [string]::IsNullOrWhiteSpace($ProblemText)) {
     $issueLevel = if ([string]::IsNullOrWhiteSpace($Level)) { "P2" } else { [string]$Level }
     $rootStatus = if ([string]::IsNullOrWhiteSpace($RootCauseStatus)) { "否，仅缓解" } else { [string]$RootCauseStatus }
     $resolution = if ([string]::IsNullOrWhiteSpace($ActionTaken)) { "已记录到最终复盘卡，等待处置说明补齐" } else { [string]$ActionTaken }
+    $mechanism = if ([string]::IsNullOrWhiteSpace($MechanismGap)) { "未说明已有机制为什么没挡住" } else { [string]$MechanismGap }
+    $prevention = if ([string]::IsNullOrWhiteSpace($Prevention)) { "未说明防复发机制" } else { [string]$Prevention }
     $bypass = if ([string]::IsNullOrWhiteSpace($TemporaryBypass)) { "否" } else { [string]$TemporaryBypass }
     $risk = if ([string]::IsNullOrWhiteSpace($OpenRisk)) { "未说明" } else { [string]$OpenRisk }
-    $issues.Add((New-RecapIssue -Problem $ProblemText -PLevel $issueLevel -Resolution $resolution -RootClosed $rootStatus -Bypass $bypass -Risk $risk -Evidence $EvidencePaths)) | Out-Null
+    $issues.Add((New-RecapIssue -Problem $ProblemText -PLevel $issueLevel -Resolution $resolution -RootClosed $rootStatus -MechanismGap $mechanism -Prevention $prevention -Bypass $bypass -Risk $risk -Evidence $EvidencePaths)) | Out-Null
 }
 
 $rows = @(Get-OperationRows -LedgerPath "docs/治理/操作执行台账.md" -TaskName $effectiveTask)
@@ -172,11 +182,15 @@ foreach ($row in @($rows | Where-Object { [string]::Equals([string]$_.result, "F
     }
     $evidence = @()
     if (-not [string]::IsNullOrWhiteSpace([string]$row.evidence)) { $evidence += [string]$row.evidence }
+    $mechanism = "操作执行台账记录到失败；最终收口此前只看完成声明会漏掉失败链路"
+    $prevention = if ($laterSuccess) { "最终复盘和最终回复契约必须携带失败证据及后续成功证据" } else { "最终复盘将未恢复的 P1 失败保留为阻断项，禁止 DONE 结论" }
     $issues.Add((New-RecapIssue `
         -Problem ("{0} failed at {1}: {2}" -f [string]$row.action, [string]$row.at, [string]$row.detail) `
         -PLevel "P1" `
         -Resolution $resolution `
         -RootClosed $rootClosed `
+        -MechanismGap $mechanism `
+        -Prevention $prevention `
         -Bypass "否" `
         -Risk $(if ($laterSuccess) { "不影响本轮验收" } else { "阻断 DONE 结论" }) `
         -Evidence $evidence)) | Out-Null
@@ -193,6 +207,8 @@ if ($issues.Count -eq 0) {
         -PLevel "N/A" `
         -Resolution "无需处置" `
         -RootClosed "不适用，本轮未遇到阻塞或失败" `
+        -MechanismGap "不适用，本轮未遇到阻塞或失败" `
+        -Prevention "最终复盘和最终回复契约门禁继续执行" `
         -Bypass "否" `
         -Risk "无" `
         -Evidence $effectiveEvidencePaths)) | Out-Null
@@ -221,7 +237,7 @@ $summary = [ordered]@{
     pass = [bool]$pass
     finalStatus = $finalStatus
     externalReplyRequired = $true
-    requiredFields = @("遇到的问题", "P级", "处置动作", "根因是否闭环", "是否临时绕过", "未决风险", "证据路径")
+    requiredFields = @("遇到的问题", "P级", "处置动作", "根因是否闭环", "已有机制为什么没挡住", "防复发机制", "是否临时绕过", "未决风险", "证据路径")
     issues = @($issues.ToArray())
     blockingIssues = @($blockingIssues)
     evidencePaths = @($effectiveEvidencePaths)
@@ -244,8 +260,8 @@ $mdLines.Add(("- pass: {0}" -f [bool]$pass)) | Out-Null
 $mdLines.Add(("- finalStatus: {0}" -f $finalStatus)) | Out-Null
 $mdLines.Add(("- externalReplyRequired: true")) | Out-Null
 $mdLines.Add("") | Out-Null
-$mdLines.Add("| 遇到的问题 | P级 | 处置动作 | 根因是否闭环 | 是否临时绕过 | 未决风险 | 证据路径 |") | Out-Null
-$mdLines.Add("|---|---|---|---|---|---|---|") | Out-Null
+$mdLines.Add("| 遇到的问题 | P级 | 处置动作 | 根因是否闭环 | 已有机制为什么没挡住 | 防复发机制 | 是否临时绕过 | 未决风险 | 证据路径 |") | Out-Null
+$mdLines.Add("|---|---|---|---|---|---|---|---|---|") | Out-Null
 foreach ($issue in @($issues.ToArray())) {
     $mdLines.Add((Convert-IssueToMarkdownRow -Issue $issue)) | Out-Null
 }

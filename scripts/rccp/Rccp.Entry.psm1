@@ -111,6 +111,8 @@ function Get-RccpEntryDispatchMap {
         "existing-capability-probe" = "scripts/check-existing-capability-probe.ps1"
         "existing-capability-answer-shape-check" = "scripts/check-existing-capability-answer-shape.ps1"
         "final-recap-check" = "scripts/check-final-recap-check.ps1"
+        "final-reply-contract-check" = "scripts/check-final-reply-contract-check.ps1"
+        "final-reply-contract-regression" = "scripts/check-final-reply-contract-regression.ps1"
         "rccp-leaf-contract-check" = "scripts/check-rccp-leaf-contract.ps1"
         "leaf-contract-check" = "scripts/check-rccp-leaf-contract.ps1"
         "agent-prompt-contract-check" = "scripts/check-agent-prompt-contract.ps1"
@@ -204,6 +206,9 @@ function New-RccpCliArgs {
         [string]$BlueprintPath = "",
         [string]$CommandText = "",
         [string]$CommandPath = "",
+        [string]$AnswerText = "",
+        [string]$AnswerPath = "",
+        [string]$RecapPath = "",
         [string[]]$ProjectConfigPath = @(),
         [string]$ContractPath = "",
         [string]$ProjectRoot = "",
@@ -371,6 +376,8 @@ function Invoke-RccpCloseoutAtomic {
     Invoke-RccpCoreAction -CliAction "closeout-snapshot" -BoundArgs $BoundArgs
     Invoke-RccpCoreAction -CliAction "closeout-fast" -BoundArgs $BoundArgs
     Invoke-RccpLeafAction -ActionName "final-recap-check" -BoundArgs $BoundArgs
+    Invoke-RccpLeafContractGate -ActionName "final-reply-contract-check"
+    Invoke-RccpLeafAction -ActionName "final-reply-contract-check" -BoundArgs $BoundArgs
     Invoke-RccpCoreAction -CliAction "task-close" -BoundArgs $BoundArgs
     Invoke-RccpCoreAction -CliAction "closeout-sidecar" -BoundArgs $BoundArgs
 }
@@ -393,6 +400,9 @@ function New-LeafArgs {
     if ($BoundArgs.ContainsKey("BlueprintPath")) { Add-RccpTextArg -ArgList $argList -Name "-BlueprintPath" -Value ([string]$BoundArgs.BlueprintPath) }
     if ($BoundArgs.ContainsKey("CommandText")) { Add-RccpTextArg -ArgList $argList -Name "-CommandText" -Value ([string]$BoundArgs.CommandText) }
     if ($BoundArgs.ContainsKey("CommandPath")) { Add-RccpTextArg -ArgList $argList -Name "-CommandPath" -Value ([string]$BoundArgs.CommandPath) }
+    if ($BoundArgs.ContainsKey("AnswerText")) { Add-RccpTextArg -ArgList $argList -Name "-AnswerText" -Value ([string]$BoundArgs.AnswerText) }
+    if ($BoundArgs.ContainsKey("AnswerPath")) { Add-RccpTextArg -ArgList $argList -Name "-AnswerPath" -Value ([string]$BoundArgs.AnswerPath) }
+    if ($BoundArgs.ContainsKey("RecapPath")) { Add-RccpTextArg -ArgList $argList -Name "-RecapPath" -Value ([string]$BoundArgs.RecapPath) }
     if ($BoundArgs.ContainsKey("ProjectConfigPath")) { Add-RccpListArg -ArgList $argList -Name "-ProjectConfigPath" -Values @($BoundArgs.ProjectConfigPath) }
     if ($BoundArgs.ContainsKey("ContractPath")) { Add-RccpTextArg -ArgList $argList -Name "-ContractPath" -Value ([string]$BoundArgs.ContractPath) }
     if ($BoundArgs.ContainsKey("ProjectRoot")) { Add-RccpTextArg -ArgList $argList -Name "-ProjectRoot" -Value ([string]$BoundArgs.ProjectRoot) }
@@ -468,11 +478,23 @@ function Invoke-RccpLeafAction {
     if ([string]::IsNullOrWhiteSpace($leaf)) {
         throw ("RCCP action '{0}' is not available. Add an RCCP event action or a direct leaf script; the retired ops entry has been physically removed." -f $ActionName)
     }
-    if ($ActionName -in @("final-recap-check")) {
+    if ($ActionName -in @("final-recap-check", "final-reply-contract-check")) {
         Invoke-RccpLeafContractGate -ActionName $ActionName
     }
     $leafArgs = @(New-LeafArgs -BoundArgs $BoundArgs)
     switch ($ActionName) {
+        "final-recap-check" {
+            $filtered = New-Object System.Collections.Generic.List[string]
+            for ($i = 0; $i -lt $leafArgs.Count; $i++) {
+                $arg = [string]$leafArgs[$i]
+                if ($arg -in @("-AnswerText", "-AnswerPath", "-RecapPath")) {
+                    if (($i + 1) -lt $leafArgs.Count) { $i++ }
+                    continue
+                }
+                $filtered.Add($arg) | Out-Null
+            }
+            $leafArgs = @($filtered.ToArray())
+        }
         "pre-commit-smoke" { $leafArgs = @("-Mode", "Staged") }
         "receipt-reconcile" { $leafArgs = @("-Mode", $(if ([string]::IsNullOrWhiteSpace([string]$BoundArgs.Mode)) { "Staged" } else { [string]$BoundArgs.Mode })) }
         "skills-sync" {
@@ -635,6 +657,9 @@ function Invoke-RccpEntry {
         [string]$BlueprintPath = "",
         [string]$CommandText = "",
         [string]$CommandPath = "",
+        [string]$AnswerText = "",
+        [string]$AnswerPath = "",
+        [string]$RecapPath = "",
         [string[]]$ProjectConfigPath = @(),
         [string]$ContractPath = "",
         [string]$ProjectRoot = "",
@@ -720,6 +745,8 @@ function Invoke-RccpEntry {
             Invoke-RccpCoreAction -CliAction "closeout-snapshot" -BoundArgs $boundArgs
             Invoke-RccpCoreAction -CliAction "closeout-fast" -BoundArgs $boundArgs
             Invoke-RccpLeafAction -ActionName "final-recap-check" -BoundArgs $boundArgs
+            Invoke-RccpLeafContractGate -ActionName "final-reply-contract-check"
+            Invoke-RccpLeafAction -ActionName "final-reply-contract-check" -BoundArgs $boundArgs
         }
         "task-end" {
             Invoke-RccpTaskEndPreCloseMaintenance -BoundArgs $boundArgs

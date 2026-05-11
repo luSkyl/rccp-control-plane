@@ -150,8 +150,9 @@ pwsh -NoProfile -File .\rccp.ps1 -Action action-registry-check -Task "release-re
 # Emit read-only context loading guidance
 pwsh -NoProfile -File .\rccp.ps1 -Action memory-briefing -Task "project-onboarding"
 
-# Run a single closeout chain when a task is ready to finish
-pwsh -NoProfile -File .\rccp.ps1 -Action closeout-atomic -Task "update-readme" -TargetPaths "README.md" -Mode Staged -GateProfile Fast
+# Run a single closeout chain when a task is ready to finish.
+# Final closeout requires the current final reply draft as an explicit artifact.
+pwsh -NoProfile -File .\rccp.ps1 -Action closeout-atomic -Task "update-readme" -TargetPaths "README.md" -AnswerPath "docs/治理/最新态/final-answer-draft-latest.md" -Mode Staged -GateProfile Fast
 ```
 
 Action availability depends on the installed policy bundle and adapter. Use
@@ -201,6 +202,12 @@ adopter projects are expected to keep their own project-local evidence roots.
 Closeout is a single auditable chain. The preferred path is one deterministic
 `closeout-atomic` run that records task-scoped evidence and avoids manual
 stitching of partial checks.
+
+Final external replies are part of closeout evidence. `closeout-atomic` runs
+`final-recap-check` before `task-close`, then `final-reply-contract-check`
+validates the current reply draft against the recap. Pass either `-AnswerPath`
+or `-AnswerText`; the gate intentionally does not infer a draft from latest
+evidence files.
 
 ## Repository Layout
 

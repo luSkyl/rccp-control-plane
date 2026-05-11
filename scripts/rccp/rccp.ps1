@@ -30,6 +30,9 @@ Param(
     [string]$BlueprintPath = "",
     [string]$CommandText = "",
     [string]$CommandPath = "",
+    [string]$AnswerText = "",
+    [string]$AnswerPath = "",
+    [string]$RecapPath = "",
     [string[]]$ProjectConfigPath = @(),
     [string]$ContractPath = "",
     [string]$ProjectRoot = "",
@@ -64,15 +67,11 @@ Param(
     [Parameter(ValueFromRemainingArguments = $true)]
     [object[]]$RemainingArgs = @()
 )
-
 $ErrorActionPreference = "Stop"
-
 Import-Module (Join-Path $PSScriptRoot "Rccp.Entry.psm1") -Force
-
 $forwardArgs = @{}
 foreach ($key in @($PSBoundParameters.Keys)) {
     if ([string]::Equals([string]$key, "RemainingArgs", [System.StringComparison]::OrdinalIgnoreCase)) { continue }
     $forwardArgs[$key] = $PSBoundParameters[$key]
 }
-
 Invoke-RccpEntry @forwardArgs -RemainingArgs $RemainingArgs

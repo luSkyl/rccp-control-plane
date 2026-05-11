@@ -1,26 +1,30 @@
 # Task Plan
 
-Goal: eliminate the root cause behind registered-but-unavailable RCCP actions by adding an explicit distribution contract, upgrading registry validation, restoring P0 governance leaf actions, and closing with repeatable evidence.
+Goal: make the final external reply a hard-gated closeout artifact so root cause, resolution status, open risks, and evidence paths cannot be omitted after `final-recap-check`.
 
 ## Phases
 
-- [complete] Baseline current repository state and evidence.
-- [complete] Add distribution profile metadata to mirrored dispatch contracts.
-- [complete] Upgrade `action-registry-check` with default required-action validation and `-RequireAllLeafScripts`.
-- [complete] Add P0 governance leaf scripts for existing capability and kit compatibility checks.
-- [complete] Sync README/help documentation and rerun compatibility gates.
-- [complete] Commit, push, and summarize closure evidence.
+- [complete] Bootstrap RCCP task state and claim exact files.
+- [complete] Implement `final-reply-contract-check`.
+- [complete] Register the new leaf action in runtime and mirrored dispatch contracts.
+- [complete] Add regression coverage for pass and fail cases.
+- [complete] Remove implicit latest-draft fallback and sync README/help.
+- [complete] Re-run registry, leaf-contract, new gate, and closeout evidence.
 
 ## Decisions
 
-- Keep current repository as `staging-extraction`, not full kit.
-- Required actions must exist and pass contract checks.
-- Full registry coverage is enforced only with `-RequireAllLeafScripts`.
+- Reuse existing `final-recap-check-latest.json` as the source of truth.
+- Keep the new check as a leaf script with strict `exit 1` behavior.
+- Insert the gate before `task-close` in `closeout-atomic`.
+- Treat final answer text as a checked artifact via explicit `-AnswerPath` or `-AnswerText`.
+- Do not infer `docs/治理/最新态/final-answer-draft-latest.md`; latest files can be stale and must not make the gate pass by accident.
 
 ## Errors Encountered
 
 | Error | Attempt | Resolution |
 |---|---|---|
-| `existing-capability-probe` did not receive `-Why` through the entry wrapper | 1 | Added `BoundArgs.Why` translation before falling back to `Objective`. |
-| `leaf-contract-check` failed on optional/full-kit leaf contracts in staging | 1 | Added distribution-profile default scope and full-kit opt-in with `-RequireAllLeafScripts`. |
-| Required aliases lacked leaf contracts | 1 | Added contracts for `rccp-leaf-contract-check` and `leaf-contract-check`. |
+| `checkpoint -Risk` was ambiguous between `RiskClass` and `RiskScore` | 1 | Re-run checkpoint with explicit `-RiskClass NORMAL`. |
+| `thin-entry-check` failed with `ENTRY_TOO_THICK lineCountApprox=82` | 1 | Removed blank lines from `scripts/rccp/rccp.ps1` without changing dispatch behavior; rerun passed. |
+| `closeout-atomic` failed because `final-recap-check` received unsupported `-AnswerPath` | 1 | Filter final-answer-only args away from `final-recap-check`; keep them for `final-reply-contract-check`. |
+| `final-reply-contract-check` could still infer an untracked latest draft | 1 | Remove the default `AnswerPath` and add `MISSING_ANSWER_SOURCE` regression coverage. |
+| `doc-check` action is unavailable in this staging extraction | 1 | Record as unavailable; README/help were both updated and `sanitize-check -Strict` passed. |
