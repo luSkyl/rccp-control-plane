@@ -37,6 +37,17 @@
     "external-kit",
     "rollback-strict"
   ],
+  "validationProfiles": [
+    "staging-extraction",
+    "adopter-onboard",
+    "public-release",
+    "release-strict"
+  ],
+  "projectConfigRequiredForValidationProfiles": [
+    "adopter-onboard",
+    "public-release",
+    "release-strict"
+  ],
   "requiredActions": [
     "project-onboard",
     "project-governance-check",

@@ -16,6 +16,8 @@
       "memory-layer-contract-check",
       "memory-briefing",
       "action-registry-check",
+      "command-template-lint",
+      "action-reference-surface-check",
       "project-onboard",
       "project-governance-check",
       "rccp-kit-compat-check",
@@ -35,6 +37,8 @@
       "memory-layer-contract-check",
       "memory-briefing",
       "action-registry-check",
+      "command-template-lint",
+      "action-reference-surface-check",
       "project-onboard",
       "project-governance-check",
       "rccp-kit-compat-check",
@@ -62,6 +66,7 @@
   },
   "actionSurface": {
     "readonly": [
+      "help",
       "existing-capability-probe",
       "existing-capability-answer-shape-check",
       "final-recap-check",
@@ -72,6 +77,8 @@
       "memory-layer-contract-check",
       "memory-briefing",
       "action-registry-check",
+      "command-template-lint",
+      "action-reference-surface-check",
       "project-onboard",
       "project-governance-check",
       "rccp-kit-compat-check",
@@ -251,6 +258,18 @@
       ],
       "allowUnknownArgs": true
     },
+    "command-template-lint": {
+      "category": "governance-readonly",
+      "requiredParams": [
+        "Task",
+        "CommandText",
+        "CommandPath",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
     "project-onboard": {
       "category": "project-entry",
       "requiredParams": [
@@ -258,6 +277,7 @@
         "ProjectConfigPath",
         "ContractPath",
         "ProjectRoot",
+        "Profile",
         "OutDir",
         "Strict",
         "Json"
@@ -271,6 +291,7 @@
         "ProjectConfigPath",
         "ContractPath",
         "ProjectRoot",
+        "Profile",
         "OutDir",
         "Strict",
         "Json"
@@ -326,6 +347,16 @@
         "Json"
       ],
       "allowUnknownArgs": false
+    },
+    "action-reference-surface-check": {
+      "category": "governance-readonly",
+      "requiredParams": [
+        "Task",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
     }
   },
   "entryDispatch": {
@@ -339,12 +370,14 @@
     "memory-layer-contract-check": "scripts/check-memory-layer-contract.ps1",
     "memory-briefing": "scripts/invoke-memory-briefing.ps1",
     "action-registry-check": "scripts/check-rccp-action-registry.ps1",
+    "command-template-lint": "scripts/check-command-template-lint.ps1",
     "project-onboard": "scripts/check-project-onboard.ps1",
     "project-governance-check": "scripts/check-project-governance.ps1",
     "rccp-kit-compat-check": "scripts/check-rccp-kit-compat.ps1",
     "kit-compat-check": "scripts/check-rccp-kit-compat.ps1",
     "rccp-kit-rollout-check": "scripts/check-rccp-kit-rollout.ps1",
-    "kit-rollout-check": "scripts/check-rccp-kit-rollout.ps1"
+    "kit-rollout-check": "scripts/check-rccp-kit-rollout.ps1",
+    "action-reference-surface-check": "scripts/check-action-reference-surface.ps1"
   },
   "coreActions": [
     "init",

@@ -83,8 +83,11 @@ function Merge-RccpListArgsFromRemaining {
 
 function Get-RccpEntryDispatchMap {
     $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot "../..")).Path
-    $dispatchPath = Join-Path $repoRoot "docs/治理/策略/rccp-entry-dispatch.json"
-    if (Test-Path -LiteralPath $dispatchPath) {
+    foreach ($dispatchPath in @(
+            (Join-Path $repoRoot "policies/rccp-entry-dispatch.json"),
+            (Join-Path $repoRoot "docs/治理/策略/rccp-entry-dispatch.json")
+        )) {
+        if (-not (Test-Path -LiteralPath $dispatchPath -PathType Leaf)) { continue }
         try {
             $doc = Get-Content -LiteralPath $dispatchPath -Encoding UTF8 -Raw | ConvertFrom-Json
             if ($null -ne $doc.entryDispatch) { return $doc.entryDispatch }
@@ -93,85 +96,23 @@ function Get-RccpEntryDispatchMap {
         }
     }
     return [ordered]@{
-        "config-check" = "scripts/check-config-health.ps1"
-        "backend-start" = "scripts/start-backend.ps1"
-        "backend-stop" = "scripts/stop-backend.ps1"
-        "frontend-start" = "scripts/start-frontend.ps1"
-        "frontend-stop" = "scripts/stop-frontend.ps1"
-        "backend-smoke" = "scripts/smoke-backend.ps1"
-        "stack-reconcile" = "scripts/start-stack-reconcile.ps1"
-        "stack-up-stable" = "scripts/start-stack-up-stable.ps1"
-        "stack-stop" = "scripts/stop-offline-stack.ps1"
-        "stack-reconcile-stop" = "scripts/stop-offline-stack.ps1"
-        "alliance-sync-full" = "scripts/run-alliance-cashout-full-sync.ps1"
-        "alliance-sync-increment" = "scripts/run-alliance-cashout-increment-sync.ps1"
-        "alliance-sync-oneclick" = "scripts/run-alliance-sync-oneclick.ps1"
-        "yj-full-sync-oneclick" = "scripts/run-yj-full-sync-oneclick.ps1"
-        "env-ready-full-sync" = "scripts/env-ready-full-sync.ps1"
         "existing-capability-probe" = "scripts/check-existing-capability-probe.ps1"
         "existing-capability-answer-shape-check" = "scripts/check-existing-capability-answer-shape.ps1"
         "final-recap-check" = "scripts/check-final-recap-check.ps1"
         "final-reply-contract-check" = "scripts/check-final-reply-contract-check.ps1"
-        "final-reply-contract-regression" = "scripts/check-final-reply-contract-regression.ps1"
+        "thin-entry-check" = "scripts/check-rccp-thin-entry.ps1"
         "rccp-leaf-contract-check" = "scripts/check-rccp-leaf-contract.ps1"
         "leaf-contract-check" = "scripts/check-rccp-leaf-contract.ps1"
-        "agent-prompt-contract-check" = "scripts/check-agent-prompt-contract.ps1"
-        "review-context-card" = "scripts/invoke-review-context-card.ps1"
-        "review-memory-replay" = "scripts/invoke-review-memory-replay.ps1"
-        "review-intent-route" = "scripts/invoke-review-intent-route.ps1"
-        "review-intelligence-report" = "scripts/invoke-review-intelligence-report.ps1"
-        "review-memory" = "scripts/invoke-review-memory.ps1"
         "memory-layer-contract-check" = "scripts/check-memory-layer-contract.ps1"
         "memory-briefing" = "scripts/invoke-memory-briefing.ps1"
-        "review-intelligence-loop-regression" = "scripts/check-review-intelligence-loop-regression.ps1"
-        "suggestion-current-state-projection" = "scripts/check-suggestion-current-state-projection.ps1"
         "action-registry-check" = "scripts/check-rccp-action-registry.ps1"
-        "governance-evidence-view" = "scripts/check-governance-evidence-view.ps1"
-        "governance-doc-deduper" = "scripts/check-governance-doc-deduper.ps1"
-        "blueprint-governance-check" = "scripts/check-blueprint-governance.ps1"
-        "doc-check" = "scripts/check-doc-consistency.ps1"
-        "doc-next-id" = "scripts/get-next-doc-ids.ps1"
-        "ops-migration-manifest-check" = "scripts/check-ops-migration-manifest.ps1"
-        "ops-physical-removal-check" = "scripts/check-ops-physical-removal.ps1"
-        "rccp-probes" = "scripts/check-rccp-probes.ps1"
-        "probes" = "scripts/check-rccp-probes.ps1"
-        "triplet-status-check" = "scripts/check-triplet-status-consistency.ps1"
-        "rccp-direct-writer-denylist-check" = "scripts/check-rccp-direct-writer-denylist.ps1"
-        "direct-writer-denylist-check" = "scripts/check-rccp-direct-writer-denylist.ps1"
-        "rccp-ops-facade-only-check" = "scripts/check-rccp-ops-facade-only.ps1"
-        "ops-facade-only-check" = "scripts/check-rccp-ops-facade-only.ps1"
-        "rccp-root-cause-bucket-regression-check" = "scripts/check-rccp-root-cause-bucket-regression.ps1"
-        "root-cause-bucket-regression-check" = "scripts/check-rccp-root-cause-bucket-regression.ps1"
-        "thin-entry-check" = "scripts/check-rccp-thin-entry.ps1"
-        "command-surface-resolve" = "scripts/check-command-surface-resolve.ps1"
-        "runtime-authority-card" = "scripts/check-runtime-authority-card.ps1"
-        "activeTask-legacy-lint" = "scripts/check-active-task-legacy-lint.ps1"
-        "answer-authority-shape-check" = "scripts/check-answer-authority-shape.ps1"
-        "legacy-chain-impact" = "scripts/check-legacy-chain-impact.ps1"
-        "suggestion-triple-sync" = "scripts/invoke-suggestion-triple-sync.ps1"
-        "suggestion-backlog-check" = "scripts/check-suggestion-backlog.ps1"
-        "fast-feedback-check" = "scripts/check-fast-feedback-sla.ps1"
-        "manual-interrupt-check" = "scripts/check-manual-interrupt-trend.ps1"
-        "ux-baseline-metrics" = "scripts/check-ux-baseline-metrics.ps1"
-        "workspace-govern" = "scripts/auto-govern-workspace-cleanup.ps1"
-        "crawler-replay-gate-scheduler" = "scripts/run-crawler-replay-gate-scheduler.ps1"
-        "crawler-replay-scheduler-regression" = "scripts/check-crawler-replay-scheduler-regression.ps1"
-        "governance-dashboard-v2" = "scripts/run-governance-dashboard-v2.ps1"
-        "governance-daily-digest" = "scripts/run-governance-daily-digest.ps1"
-        "weekly-governance-report" = "scripts/run-weekly-governance-report.ps1"
-        "governance-issue-observatory" = "scripts/build-governance-issue-observatory.ps1"
-        "regression-fastlane" = "scripts/regression-fastlane.ps1"
-        "pre-commit-smoke" = "scripts/spec-guard.ps1"
-        "skills-sync" = "scripts/install-project-skills.ps1"
-        "receipt-reconcile" = "scripts/check-receipt-lint.ps1"
-        "closeout-atomic-regression" = "scripts/check-closeout-hardening-regression.ps1"
-        "closeout-atomic-regression-lite" = "scripts/check-closeout-hardening-regression.ps1"
-        "self-heal-preacquire-regression" = "scripts/check-self-heal-preacquire-window-regression.ps1"
-        "release-gate-regression-check" = "scripts/check-release-gate-regression.ps1"
-        "release-gate-regression-diagnostic-check" = "scripts/check-release-gate-regression-diagnostic-signature.ps1"
-        "release-gate-regression-drift-aggregate" = "scripts/check-release-gate-regression-drift-aggregate.ps1"
-        "release-gate-regression-drift-alert" = "scripts/check-release-gate-regression-drift-alert.ps1"
-        "closeout-bench" = "scripts/benchmark-closeout-concurrency.ps1"
+        "command-template-lint" = "scripts/check-command-template-lint.ps1"
+        "project-onboard" = "scripts/check-project-onboard.ps1"
+        "project-governance-check" = "scripts/check-project-governance.ps1"
+        "rccp-kit-compat-check" = "scripts/check-rccp-kit-compat.ps1"
+        "kit-compat-check" = "scripts/check-rccp-kit-compat.ps1"
+        "rccp-kit-rollout-check" = "scripts/check-rccp-kit-rollout.ps1"
+        "kit-rollout-check" = "scripts/check-rccp-kit-rollout.ps1"
     }
 }
 
@@ -212,6 +153,7 @@ function New-RccpCliArgs {
         [string[]]$ProjectConfigPath = @(),
         [string]$ContractPath = "",
         [string]$ProjectRoot = "",
+        [string]$Profile = "",
         [string]$OutDir = "",
         [ValidateSet("Latest", "Transient")]
         [string]$EvidenceMode = "Latest",
@@ -337,8 +279,14 @@ function Invoke-RccpTaskStartMaintenance {
 function Invoke-RccpTaskEndPreCloseMaintenance {
     Param([hashtable]$BoundArgs)
     $taskName = if ($BoundArgs.ContainsKey("Task")) { [string]$BoundArgs.Task } else { "" }
-    Invoke-RccpMaintenanceLeaf -ActionName "progress-doc-auto-compact" -Arguments @("-Task", $taskName, "-RunMode", "closeout-gate", "-ForceWhenTriggered", "-HardFailOnUnresolved") -HardFail
-    Invoke-RccpMaintenanceLeaf -ActionName "governance-doc-auto-compact" -Arguments @("-Task", $taskName, "-RunMode", "closeout-gate", "-ForceWhenTriggered", "-HardFailOnUnresolved") -HardFail
+    foreach ($actionName in @("progress-doc-auto-compact", "governance-doc-auto-compact")) {
+        $leaf = Resolve-RccpLeafScript -ActionName $actionName -BoundArgs @{}
+        if ([string]::IsNullOrWhiteSpace($leaf)) {
+            Write-Warning ("RCCP maintenance action '{0}' is unavailable; skipped for staging extraction." -f $actionName)
+            continue
+        }
+        Invoke-RccpMaintenanceLeaf -ActionName $actionName -Arguments @("-Task", $taskName, "-RunMode", "closeout-gate", "-ForceWhenTriggered", "-HardFailOnUnresolved") -HardFail
+    }
 }
 
 function Invoke-RccpTaskEndTailMaintenance {
@@ -406,6 +354,7 @@ function New-LeafArgs {
     if ($BoundArgs.ContainsKey("ProjectConfigPath")) { Add-RccpListArg -ArgList $argList -Name "-ProjectConfigPath" -Values @($BoundArgs.ProjectConfigPath) }
     if ($BoundArgs.ContainsKey("ContractPath")) { Add-RccpTextArg -ArgList $argList -Name "-ContractPath" -Value ([string]$BoundArgs.ContractPath) }
     if ($BoundArgs.ContainsKey("ProjectRoot")) { Add-RccpTextArg -ArgList $argList -Name "-ProjectRoot" -Value ([string]$BoundArgs.ProjectRoot) }
+    if ($BoundArgs.ContainsKey("Profile")) { Add-RccpTextArg -ArgList $argList -Name "-Profile" -Value ([string]$BoundArgs.Profile) }
     if ($BoundArgs.ContainsKey("OutDir")) { Add-RccpTextArg -ArgList $argList -Name "-OutDir" -Value ([string]$BoundArgs.OutDir) }
     if ($BoundArgs.ContainsKey("EvidenceMode")) { Add-RccpTextArg -ArgList $argList -Name "-EvidenceMode" -Value ([string]$BoundArgs.EvidenceMode) }
     if ($BoundArgs.ContainsKey("NoPersist") -and $BoundArgs.NoPersist) { $argList.Add("-NoPersist") | Out-Null }
@@ -663,6 +612,7 @@ function Invoke-RccpEntry {
         [string[]]$ProjectConfigPath = @(),
         [string]$ContractPath = "",
         [string]$ProjectRoot = "",
+        [string]$Profile = "",
         [string]$OutDir = "",
         [ValidateSet("Latest", "Transient")]
         [string]$EvidenceMode = "Latest",

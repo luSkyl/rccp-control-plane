@@ -36,6 +36,7 @@ Param(
     [string[]]$ProjectConfigPath = @(),
     [string]$ContractPath = "",
     [string]$ProjectRoot = "",
+    [string]$Profile = "",
     [string]$OutDir = "",
     [ValidateSet("Latest", "Transient")]
     [string]$EvidenceMode = "Latest",

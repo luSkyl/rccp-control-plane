@@ -26,6 +26,8 @@
     "V3-B rollout hardening: project-local evidence roots are the default for project checks.",
     "Adapter contracts are machine-checkable.",
     "Rollback drill, CI regression, onboarding SOP, and command template lint are part of rollout acceptance."
+    ,
+    "Profile-aware strictness separates staging extraction, adopter onboarding, public release, and release-strict validation semantics."
   ],
   "evidence": {
     "rolloutCheck": "docs/治理/最新态/rccp-kit-rollout-check-latest.json",

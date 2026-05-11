@@ -1,0 +1,41 @@
+name: RCCP CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  governance:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Parser check
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          Get-ChildItem -Recurse -Include *.ps1,*.psm1 | ForEach-Object {
+            $tokens = $null
+            $errors = $null
+            [System.Management.Automation.Language.Parser]::ParseFile($_.FullName, [ref]$tokens, [ref]$errors) | Out-Null
+            if ($errors.Count -gt 0) {
+              throw "PowerShell parser errors in $($_.FullName): $($errors | Out-String)"
+            }
+          }
+
+      - name: RCCP gates
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          pwsh -NoProfile -File .\rccp.ps1 -Action help
+          pwsh -NoProfile -File .\tools\sanitize-check.ps1 -Strict
+          pwsh -NoProfile -File .\rccp.ps1 -Action command-template-lint -Task "ci" -CommandText 'pwsh -NoProfile -File .\rccp.ps1 -Action rccp-leaf-contract-check -Task "ci" -RequireAllLeafScripts -Strict' -Strict
+          pwsh -NoProfile -File .\rccp.ps1 -Action action-reference-surface-check -Task "ci" -Strict
+          pwsh -NoProfile -File .\rccp.ps1 -Action action-registry-check -Task "ci" -RequireAllLeafScripts -Strict
+          pwsh -NoProfile -File .\rccp.ps1 -Action rccp-leaf-contract-check -Task "ci" -RequireAllLeafScripts -Strict
+          pwsh -NoProfile -File .\rccp.ps1 -Action thin-entry-check -Task "ci" -Strict
+          pwsh -NoProfile -File .\rccp.ps1 -Action memory-layer-contract-check -Task "ci" -Strict
+          pwsh -NoProfile -File .\rccp.ps1 -Action project-onboard -Task "ci" -Strict
+          pwsh -NoProfile -File .\rccp.ps1 -Action project-governance-check -Task "ci" -Strict
+          pwsh -NoProfile -File .\rccp.ps1 -Action rccp-kit-rollout-check -Task "ci" -Strict

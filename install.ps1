@@ -20,6 +20,12 @@ Copy-Item -LiteralPath (Join-Path $sourceRoot "scripts") -Destination $rccpDir -
 Copy-Item -LiteralPath (Join-Path $sourceRoot "policies") -Destination $rccpDir -Recurse -Force
 Copy-Item -LiteralPath (Join-Path $sourceRoot "schemas") -Destination $rccpDir -Recurse -Force
 
+$docsDir = Join-Path $rccpDir "docs"
+$strategyDir = Join-Path $docsDir "治理/策略"
+New-Item -ItemType Directory -Force -Path $strategyDir | Out-Null
+Copy-Item -LiteralPath (Join-Path $sourceRoot "docs/memory-layer.md") -Destination $docsDir -Force
+Copy-Item -LiteralPath (Join-Path $sourceRoot "docs/治理/策略") -Destination (Join-Path $docsDir "治理") -Recurse -Force
+
 $shim = @'
 $ErrorActionPreference = "Stop"
 $entry = Join-Path $PSScriptRoot ".rccp/scripts/rccp/rccp.ps1"
