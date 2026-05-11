@@ -1,0 +1,43 @@
+{
+  "machineTag": "RCCP_ADAPTER_PACK_TEMPLATE_V1",
+  "packId": "docs-only",
+  "packName": "Docs-Only Adapter Pack",
+  "version": "V1",
+  "status": "active",
+  "owner": "governance-owner",
+  "stack": [
+    "docs"
+  ],
+  "scope": "Markdown-first repositories that need docs governance, policy alignment, and release readiness without application build gates.",
+  "nonGoals": [
+    "backend services",
+    "frontend builds",
+    "RCCP core task lifecycle",
+    "private history as source of truth"
+  ],
+  "requiredArtifacts": [
+    "guidePath",
+    "manifestPath",
+    "exampleRoot",
+    "checkScriptPath"
+  ],
+  "requiredActions": [
+    "docs-only-contract-check"
+  ],
+  "verificationOrder": [
+    "guide",
+    "manifest",
+    "example",
+    "check",
+    "dispatch",
+    "ci",
+    "rollout"
+  ],
+  "exampleRoot": "examples/docs-only-repo",
+  "guidePath": "docs/adapters/docs-only.md",
+  "manifestPath": "adapters/docs-only.json",
+  "checkScriptPath": "scripts/check-docs-only-contract.ps1",
+  "releaseNotes": [
+    "Docs-only repositories get a compact governance pack with no application build assumptions."
+  ]
+}

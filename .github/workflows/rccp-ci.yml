@@ -35,7 +35,17 @@ jobs:
           pwsh -NoProfile -File .\rccp.ps1 -Action action-registry-check -Task "ci" -RequireAllLeafScripts -Strict
           pwsh -NoProfile -File .\rccp.ps1 -Action rccp-leaf-contract-check -Task "ci" -RequireAllLeafScripts -Strict
           pwsh -NoProfile -File .\rccp.ps1 -Action thin-entry-check -Task "ci" -Strict
+          pwsh -NoProfile -File .\rccp.ps1 -Action adapter-pack-factory-check -Task "ci" -Strict
+          pwsh -NoProfile -File .\rccp.ps1 -Action java-vue-contract-check -Task "ci" -Strict
+          pwsh -NoProfile -File .\rccp.ps1 -Action docs-only-contract-check -Task "ci" -Strict
+          pwsh -NoProfile -File .\rccp.ps1 -Action ai-context-gateway-contract-check -Task "ci" -Strict
+          pwsh -NoProfile -File .\rccp.ps1 -Action obsidian-second-brain-contract-check -Task "ci" -Strict
           pwsh -NoProfile -File .\rccp.ps1 -Action memory-layer-contract-check -Task "ci" -Strict
+          pwsh -NoProfile -File .\rccp.ps1 -Action memory-source-contract-check -Task "ci" -Strict
+          pwsh -NoProfile -File .\rccp.ps1 -Action memory-ingest-plan -Task "ci" -Strict
+          pwsh -NoProfile -File .\rccp.ps1 -Action memory-recall-check -Task "ci" -EvalPath "examples/obsidian-second-brain-repo/eval-cases/memory-recall-cases.json" -Strict
+          pwsh -NoProfile -File .\rccp.ps1 -Action abstain-shape-check -Task "ci" -AnswerPath "examples/obsidian-second-brain-repo/eval-cases/abstain-answer.md" -Strict
+          pwsh -NoProfile -File .\rccp.ps1 -Action multi-agent-contract-check -Task "ci" -Strict
           pwsh -NoProfile -File .\rccp.ps1 -Action project-onboard -Task "ci" -Strict
           pwsh -NoProfile -File .\rccp.ps1 -Action project-governance-check -Task "ci" -Strict
           pwsh -NoProfile -File .\rccp.ps1 -Action rccp-kit-rollout-check -Task "ci" -Strict

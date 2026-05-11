@@ -4,7 +4,7 @@ Param(
     [string]$Why = "",
     [string]$AnswerText = "",
     [string]$AnswerPath = "",
-    [string]$OutDir = "docs/治理/最新态",
+    [string]$OutDir = "",
     [switch]$Strict,
     [switch]$Json
 )
@@ -18,8 +18,16 @@ function Write-Utf8NoBom {
     [System.IO.File]::WriteAllText($Path, $normalized, (New-Object System.Text.UTF8Encoding($false)))
 }
 
+function ConvertFrom-CodePoints {
+    Param([Parameter(Mandatory = $true)][int[]]$CodePoints)
+    return [string]::Concat(($CodePoints | ForEach-Object { [char]$_ }))
+}
+
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
 Set-Location $repoRoot
+$governanceDir = ConvertFrom-CodePoints @(0x6cbb, 0x7406)
+$latestDir = ConvertFrom-CodePoints @(0x6700, 0x65b0, 0x6001)
+if ([string]::IsNullOrWhiteSpace($OutDir)) { $OutDir = Join-Path (Join-Path "docs" $governanceDir) $latestDir }
 if (-not (Test-Path -LiteralPath $OutDir)) { New-Item -ItemType Directory -Path $OutDir -Force | Out-Null }
 
 $answer = [string]$AnswerText
@@ -31,16 +39,30 @@ if (-not [string]::IsNullOrWhiteSpace($AnswerPath)) {
 }
 
 $requirements = [ordered]@{
-    existingImplementation = "现有|已实现|current|existing"
-    residualSymptom = "残余|当前|symptom|缺口|问题"
-    rootCause = "根因|root cause|原因"
-    minimalRepair = "修复|repair|action|落地"
-    verification = "验证|门禁|evidence|acceptance|PASS"
+    existingImplementation = "current|existing"
+    residualSymptom = "symptom|gap|problem|residual|current"
+    rootCause = "root cause|cause|reason"
+    minimalRepair = "repair|action|implement|land|minimal"
+    verification = "verification|gate|evidence|acceptance|PASS"
 }
 
 $missing = New-Object System.Collections.Generic.List[string]
 foreach ($item in $requirements.GetEnumerator()) {
     if ($answer -notmatch $item.Value) { $missing.Add([string]$item.Key) | Out-Null }
+}
+
+$usesLayeredProtocol = ($answer -match "v1|V1|v2|V2|v3|V3|GitHub|github|greenfield|redesign")
+if ($usesLayeredProtocol) {
+    $layerRequirements = [ordered]@{
+        v1Delta = "v1|V1|minimal|delta|existing|current"
+        v2Authorization = "v2|V2|authorized|authorization|GitHub|github|external"
+        v3Authorization = "v3|V3|greenfield|redesign|from scratch|explicit"
+        rollbackOrRisk = "rollback|risk|migration|cost"
+        acceptanceGate = "gate|acceptance|verification|PASS|evidence"
+    }
+    foreach ($item in $layerRequirements.GetEnumerator()) {
+        if ($answer -notmatch $item.Value) { $missing.Add([string]$item.Key) | Out-Null }
+    }
 }
 
 $verdict = if ($missing.Count -eq 0) { "PASS" } else { "GREENFIELD_ANSWER_REGRESSION" }
@@ -53,10 +75,11 @@ $payload = [ordered]@{
     why = [string]$Why
     verdict = $verdict
     missingSections = @($missing.ToArray())
-    evidencePath = "docs/治理/最新态/existing-capability-answer-shape-latest.json"
+    usesLayeredProtocol = [bool]$usesLayeredProtocol
+    evidencePath = $latestJsonPath
 }
 Write-Utf8NoBom -Path $latestJsonPath -Content ($payload | ConvertTo-Json -Depth 12)
-Write-Utf8NoBom -Path $latestMdPath -Content ([string]::Join("`n", @("# Existing Capability Answer Shape Check", "", "- verdict: $verdict", "- missingSections: $($missing.Count)")))
+Write-Utf8NoBom -Path $latestMdPath -Content ([string]::Join("`n", @("# Existing Capability Answer Shape Check", "", "- verdict: $verdict", "- missingSections: $($missing.Count)", "- usesLayeredProtocol: $usesLayeredProtocol")))
 
 if ($Json) { $payload | ConvertTo-Json -Depth 12 }
 else { Write-Host ("existing-capability-answer-shape-check completed: verdict={0}, latest='{1}'" -f $verdict, $latestJsonPath) -ForegroundColor $(if ($missing.Count -eq 0) { "Green" } else { "Red" }) }

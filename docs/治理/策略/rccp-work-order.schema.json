@@ -1,0 +1,45 @@
+{
+  "machineTag": "RCCP_WORK_ORDER_SCHEMA_V1",
+  "generatedAt": "2026-05-11T20:15:00+08:00",
+  "version": "V1",
+  "description": "Public schema for bounded RCCP multi-agent work orders.",
+  "requiredFields": [
+    "workOrderId",
+    "parentTask",
+    "actorRole",
+    "objective",
+    "allowedPaths",
+    "forbiddenActions",
+    "acceptanceCriteria",
+    "evidenceRequired",
+    "handoffFormat",
+    "closeoutAllowed",
+    "expiresAt"
+  ],
+  "actorRoles": [
+    "main-agent",
+    "sub-agent",
+    "worker-agent",
+    "verifier-agent"
+  ],
+  "forbiddenSubAgentActions": [
+    "closeout-check",
+    "task-end",
+    "closeout-atomic",
+    "task-close"
+  ],
+  "invariants": [
+    "work_order_must_name_allowed_paths",
+    "sub_agent_must_not_closeout",
+    "handoff_must_include_evidence",
+    "main_agent_owns_final_integration",
+    "closeout_requires_main_agent"
+  ],
+  "evidenceFields": [
+    "evidencePath",
+    "changedPaths",
+    "verificationCommands",
+    "verdict",
+    "residualRisk"
+  ]
+}

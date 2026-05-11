@@ -1,0 +1,31 @@
+{
+  "machineTag": "OBSIDIAN_SECOND_BRAIN_RECALL_CASES_V1",
+  "generatedAt": "2026-05-11T00:00:00+08:00",
+  "cases": [
+    {
+      "id": "source-path-contract",
+      "query": "source path contract",
+      "expectedVerdict": "PASS",
+      "expectedTopSourcePaths": [
+        "docs/AI上下文/source-path-contract.md"
+      ],
+      "topK": 3
+    },
+    {
+      "id": "obsidian-adapter",
+      "query": "Obsidian second-brain adapter",
+      "expectedVerdict": "PASS",
+      "expectedTopSourcePaths": [
+        "docs/adapters/obsidian-second-brain.md"
+      ],
+      "topK": 3
+    },
+    {
+      "id": "unrelated-query",
+      "query": "banana rocket zebra",
+      "expectedVerdict": "ABSTAIN_REQUIRED",
+      "expectedTopSourcePaths": [],
+      "topK": 3
+    }
+  ]
+}

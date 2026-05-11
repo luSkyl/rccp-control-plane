@@ -15,6 +15,16 @@
 - final-reply-contract-check -Task "<task>" -AnswerPath <current-draft> | -AnswerText "<reply>": validates the external reply against recap evidence.
 - memory-layer-contract-check -Task "<task>": validates the public RCCP memory layer contract and briefing alignment.
 - memory-briefing -Task "<task>": emits read-only load-order guidance.
+- memory-source-contract-check -Task "<task>" [-TargetPaths <paths>] [-Strict]: validates source-backed note metadata, source_path coverage, and eligible recall inputs.
+- memory-ingest-plan -Task "<task>" [-TargetPaths <paths>] [-Strict]: builds rebuildable ingest evidence, chunk candidates, and source fingerprints without calling a vector service.
+- memory-recall-check -Task "<task>" [-EvalPath <cases>] [-Query "<text>"] [-Strict]: evaluates offline recall against generated index candidates and abstains when no grounded source exists.
+- abstain-shape-check -Task "<task>" -AnswerPath <sample> | -AnswerText "<reply>" [-Strict]: validates fail-closed answer shape for unsupported memory claims.
+- adapter-pack-factory-check -Task "<task>" [-Strict]: validates the reusable adapter-pack factory guide, manifest, example template, and contract wiring.
+- java-vue-contract-check -Task "<task>" [-Strict]: validates the Java + Vue pack guide, manifest, example repo, and release wiring.
+- docs-only-contract-check -Task "<task>" [-Strict]: validates the docs-only pack guide, manifest, example repo, and release wiring.
+- ai-context-gateway-contract-check -Task "<task>" [-Strict]: validates the AI context gateway pack guide, manifest, example repo, and fail-closed release wiring.
+- obsidian-second-brain-contract-check -Task "<task>" [-Strict]: validates the public Obsidian/LLM second-brain adapter contract, schema, and example vault.
+- multi-agent-contract-check -Task "<task>" [-Strict]: validates the public multi-agent workflow contract, work-order schema, and example handoff.
 - action-registry-check -Task "<task>" [-RequireAllLeafScripts] [-Strict]: validates registry mirror and leaf coverage.
 - thin-entry-check -Task "<task>" [-Strict]: validates thin entry, policy mirror, and retired entrypoints.
 - project-onboard -Task "<task>" [-Profile staging-extraction|adopter-onboard|public-release|release-strict] [-Strict]: validates project onboarding for the current distribution profile.

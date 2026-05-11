@@ -96,14 +96,38 @@ Add-Check -Checks $checks -Name "briefing-script" -Ok (Test-Path -LiteralPath $b
 $dispatchOk = $false
 if ($null -ne $dispatch -and $null -ne $dispatch.entryDispatch) {
     $entryNames = @($dispatch.entryDispatch.PSObject.Properties.Name)
-    $dispatchOk = $entryNames -contains "memory-briefing" -and $entryNames -contains "memory-layer-contract-check"
+    $runtimeChainNames = @(
+        "memory-briefing",
+        "memory-layer-contract-check",
+        "obsidian-second-brain-contract-check",
+        "memory-source-contract-check",
+        "memory-ingest-plan",
+        "memory-recall-check",
+        "abstain-shape-check"
+    )
+    $dispatchOk = $true
+    foreach ($name in @($runtimeChainNames)) {
+        $dispatchOk = $dispatchOk -and ($entryNames -contains $name)
+    }
 }
 Add-Check -Checks $checks -Name "rccp-dispatch" -Ok $dispatchOk -Detail (Normalize-PathText $dispatchPath)
 
 $policyDispatchOk = $false
 if ($null -ne $policyDispatch -and $null -ne $policyDispatch.entryDispatch) {
     $policyEntryNames = @($policyDispatch.entryDispatch.PSObject.Properties.Name)
-    $policyDispatchOk = $policyEntryNames -contains "memory-briefing" -and $policyEntryNames -contains "memory-layer-contract-check"
+    $runtimeChainNames = @(
+        "memory-briefing",
+        "memory-layer-contract-check",
+        "obsidian-second-brain-contract-check",
+        "memory-source-contract-check",
+        "memory-ingest-plan",
+        "memory-recall-check",
+        "abstain-shape-check"
+    )
+    $policyDispatchOk = $true
+    foreach ($name in @($runtimeChainNames)) {
+        $policyDispatchOk = $policyDispatchOk -and ($policyEntryNames -contains $name)
+    }
 }
 Add-Check -Checks $checks -Name "policy-dispatch" -Ok $policyDispatchOk -Detail (Normalize-PathText $policyDispatchPath)
 

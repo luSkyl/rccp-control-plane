@@ -1121,24 +1121,37 @@ function Get-RccpCurrentProjection {
     return (Get-Content -LiteralPath $projectionPath -Encoding UTF8 -Raw | ConvertFrom-Json)
 }
 
+function Select-RccpProjectionTask {
+    Param(
+        [Parameter(Mandatory = $true)]$Projection,
+        [string]$Task = ""
+    )
+
+    if (-not [string]::IsNullOrWhiteSpace($Task)) {
+        foreach ($item in @($Projection.tasks)) {
+            if ([string]::Equals([string]$item.task, $Task, [System.StringComparison]::OrdinalIgnoreCase)) {
+                return $item
+            }
+        }
+    }
+
+    $tasks = @($Projection.tasks)
+    if ($tasks.Count -eq 0) {
+        return $null
+    }
+
+    return ($tasks |
+        Sort-Object -Property @{ Expression = { [string]$_.updatedAt } }, @{ Expression = { [string]$_.task } } |
+        Select-Object -Last 1)
+}
+
 function Publish-RccpEvidenceCard {
     Param([string]$Task = "")
     [void](Initialize-RccpEventStore)
     $paths = Get-RccpPaths
     $projection = Get-RccpCurrentProjection
     $backend = Get-RccpStoreBackend
-    $selectedTask = $null
-    if (-not [string]::IsNullOrWhiteSpace($Task)) {
-        foreach ($item in @($projection.tasks)) {
-            if ([string]::Equals([string]$item.task, $Task, [System.StringComparison]::OrdinalIgnoreCase)) {
-                $selectedTask = $item
-                break
-            }
-        }
-    }
-    if ($null -eq $selectedTask -and @($projection.tasks).Count -gt 0) {
-        $selectedTask = @($projection.tasks)[@($projection.tasks).Count - 1]
-    }
+    $selectedTask = Select-RccpProjectionTask -Projection $projection -Task $Task
     $blockers = @()
     if ([string]::Equals([string]$backend.kind, "missing", [System.StringComparison]::OrdinalIgnoreCase)) {
         $blockers += "BLOCKED_DEPENDENCY: sqlite3/python sqlite backend missing"
@@ -1252,18 +1265,7 @@ function Publish-RccpExecutionCard {
     }
 
     $projection = Get-RccpCurrentProjection
-    $selectedTask = $null
-    if (-not [string]::IsNullOrWhiteSpace($Task)) {
-        foreach ($item in @($projection.tasks)) {
-            if ([string]::Equals([string]$item.task, $Task, [System.StringComparison]::OrdinalIgnoreCase)) {
-                $selectedTask = $item
-                break
-            }
-        }
-    }
-    if ($null -eq $selectedTask -and @($projection.tasks).Count -gt 0) {
-        $selectedTask = @($projection.tasks)[@($projection.tasks).Count - 1]
-    }
+    $selectedTask = Select-RccpProjectionTask -Projection $projection -Task $Task
 
     $selectedExecutionCard = $null
     foreach ($item in @($projection.executionCards)) {

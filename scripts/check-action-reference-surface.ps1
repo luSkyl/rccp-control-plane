@@ -70,7 +70,11 @@ Set-Location $repoRoot
 if (-not (Test-Path -LiteralPath $OutDir)) { New-Item -ItemType Directory -Path $OutDir -Force | Out-Null }
 
 $dispatch = Read-JsonFile -Path "policies/rccp-entry-dispatch.json"
-$textSources = @("README.md", "docs/release-checklist.md", "scripts/help/admission-runtime-actions.txt")
+$textSources = @("README.md", "docs/release-checklist.md", "docs/multi-agent-workflow.md", "docs/adapters/README.md", "docs/AI上下文/README.md", "scripts/help/admission-runtime-actions.txt")
+$textSources += @(Get-ChildItem -LiteralPath "docs/adapters" -Filter "*.md" -File -ErrorAction SilentlyContinue | ForEach-Object {
+    (Resolve-Path -Relative -LiteralPath $_.FullName) -replace '^[.][\\/]', '' -replace '\\', '/'
+})
+$textSources = @($textSources | Select-Object -Unique)
 $manifestPaths = @("policies/rccp-kit-manifest.json", "docs/治理/策略/rccp-kit-manifest.json")
 
 $availableActions = New-Object System.Collections.Generic.HashSet[string]([System.StringComparer]::OrdinalIgnoreCase)

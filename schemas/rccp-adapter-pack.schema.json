@@ -1,0 +1,54 @@
+{
+  "machineTag": "RCCP_ADAPTER_PACK_SCHEMA_V1",
+  "generatedAt": "2026-05-11T20:45:00+08:00",
+  "version": "V1",
+  "description": "Public manifest schema for reusable RCCP adapter packs.",
+  "requiredFields": [
+    "packId",
+    "packName",
+    "version",
+    "status",
+    "owner",
+    "stack",
+    "scope",
+    "nonGoals",
+    "requiredArtifacts",
+    "requiredActions",
+    "verificationOrder",
+    "exampleRoot",
+    "guidePath",
+    "manifestPath",
+    "checkScriptPath"
+  ],
+  "statusValues": [
+    "draft",
+    "active",
+    "deprecated"
+  ],
+  "stackValues": [
+    "java",
+    "vue",
+    "docs",
+    "obsidian",
+    "ai-context",
+    "multi-agent"
+  ],
+  "requiredArtifacts": [
+    "guidePath",
+    "manifestPath",
+    "exampleRoot",
+    "checkScriptPath"
+  ],
+  "requiredActionKinds": [
+    "read-only check",
+    "project entry",
+    "runtime gate",
+    "closeout gate"
+  ],
+  "invariants": [
+    "pack_must_have_guide_manifest_example_and_check",
+    "pack_must_fail_closed_without_required_evidence",
+    "pack_must_not_modify_rccp_core_rules",
+    "pack_release_must_be_visible_in_ci_and_rollout"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "cases": [
+    {
+      "id": "missing-evidence",
+      "query": "Summarize the private project history.",
+      "expected": "abstain"
+    },
+    {
+      "id": "source-backed",
+      "query": "Use source-backed notes only.",
+      "expected": "grounded"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "machineTag": "RCCP_ADAPTER_PACK_TEMPLATE_V1",
+  "packId": "java-vue",
+  "packName": "Java + Vue Adapter Pack",
+  "version": "V1",
+  "status": "active",
+  "owner": "governance-owner",
+  "stack": [
+    "java",
+    "vue"
+  ],
+  "scope": "Java backend, Vue frontend, migration, and release gates for adopter repositories.",
+  "nonGoals": [
+    "RCCP core task lifecycle",
+    "private history as source of truth",
+    "model provider or vector service"
+  ],
+  "requiredArtifacts": [
+    "guidePath",
+    "manifestPath",
+    "exampleRoot",
+    "checkScriptPath"
+  ],
+  "requiredActions": [
+    "java-vue-contract-check"
+  ],
+  "verificationOrder": [
+    "guide",
+    "manifest",
+    "example",
+    "check",
+    "dispatch",
+    "ci",
+    "rollout"
+  ],
+  "exampleRoot": "examples/java-vue-repo",
+  "guidePath": "docs/adapters/java-vue.md",
+  "manifestPath": "adapters/java-vue.json",
+  "checkScriptPath": "scripts/check-java-vue-contract.ps1",
+  "releaseNotes": [
+    "Java + Vue repositories get a single pack surface for backend, frontend, migration, and release gates."
+  ]
+}

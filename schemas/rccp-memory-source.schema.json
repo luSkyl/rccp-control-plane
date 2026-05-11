@@ -1,0 +1,53 @@
+{
+  "machineTag": "RCCP_MEMORY_SOURCE_CONTRACT_V1",
+  "generatedAt": "2026-05-11T00:00:00+08:00",
+  "version": "V1",
+  "description": "Required metadata contract for source-backed notes that may participate in RCCP memory briefing, Obsidian navigation, or optional vector retrieval.",
+  "requiredFields": [
+    "title",
+    "status",
+    "owner",
+    "updated_at",
+    "source_path",
+    "confidence"
+  ],
+  "allowedStatuses": [
+    "active",
+    "draft",
+    "deprecated",
+    "inbox"
+  ],
+  "primaryRecallStatuses": [
+    "active"
+  ],
+  "allowedConfidence": [
+    "high",
+    "medium",
+    "low"
+  ],
+  "primaryRecallConfidence": [
+    "high",
+    "medium"
+  ],
+  "pathRules": [
+    "source_path should be repository-relative unless it intentionally points to a public external reference",
+    "vector points must carry the same source_path as the source note",
+    "path moves must delete old points before writing new points"
+  ],
+  "requiredIngestEvidenceFields": [
+    "sourceFingerprint",
+    "indexVersion",
+    "files",
+    "changedFiles",
+    "unchangedFiles",
+    "deletedPoints",
+    "chunks",
+    "toolVersion"
+  ],
+  "failClosedRules": [
+    "missing source_path blocks primary recall",
+    "low confidence content stays in inbox or blocked recall",
+    "unknown indexVersion blocks evidence-backed answers",
+    "sensitive content hits stop ingest"
+  ]
+}

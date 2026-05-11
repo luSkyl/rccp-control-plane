@@ -14,7 +14,17 @@
       "rccp-leaf-contract-check",
       "leaf-contract-check",
       "memory-layer-contract-check",
+      "memory-source-contract-check",
+      "memory-ingest-plan",
+      "memory-recall-check",
+      "abstain-shape-check",
       "memory-briefing",
+      "adapter-pack-factory-check",
+      "java-vue-contract-check",
+      "docs-only-contract-check",
+      "ai-context-gateway-contract-check",
+      "obsidian-second-brain-contract-check",
+      "multi-agent-contract-check",
       "action-registry-check",
       "command-template-lint",
       "action-reference-surface-check",
@@ -35,7 +45,17 @@
       "rccp-leaf-contract-check",
       "leaf-contract-check",
       "memory-layer-contract-check",
+      "memory-source-contract-check",
+      "memory-ingest-plan",
+      "memory-recall-check",
+      "abstain-shape-check",
       "memory-briefing",
+      "adapter-pack-factory-check",
+      "java-vue-contract-check",
+      "docs-only-contract-check",
+      "ai-context-gateway-contract-check",
+      "obsidian-second-brain-contract-check",
+      "multi-agent-contract-check",
       "action-registry-check",
       "command-template-lint",
       "action-reference-surface-check",
@@ -75,7 +95,17 @@
       "rccp-leaf-contract-check",
       "leaf-contract-check",
       "memory-layer-contract-check",
+      "memory-source-contract-check",
+      "memory-ingest-plan",
+      "memory-recall-check",
+      "abstain-shape-check",
       "memory-briefing",
+      "adapter-pack-factory-check",
+      "java-vue-contract-check",
+      "docs-only-contract-check",
+      "ai-context-gateway-contract-check",
+      "obsidian-second-brain-contract-check",
+      "multi-agent-contract-check",
       "action-registry-check",
       "command-template-lint",
       "action-reference-surface-check",
@@ -248,6 +278,115 @@
       ],
       "allowUnknownArgs": false
     },
+    "memory-source-contract-check": {
+      "category": "governance-readonly",
+      "requiredParams": [
+        "Task",
+        "TargetPaths",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "memory-ingest-plan": {
+      "category": "governance-readonly",
+      "requiredParams": [
+        "Task",
+        "TargetPaths",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "memory-recall-check": {
+      "category": "governance-readonly",
+      "requiredParams": [
+        "Task",
+        "Query",
+        "EvalPath",
+        "TopK",
+        "IndexPath",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "abstain-shape-check": {
+      "category": "governance-readonly",
+      "requiredParams": [
+        "Task",
+        "Why",
+        "AnswerText",
+        "AnswerPath",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "adapter-pack-factory-check": {
+      "category": "governance-readonly",
+      "requiredParams": [
+        "Task",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "java-vue-contract-check": {
+      "category": "governance-readonly",
+      "requiredParams": [
+        "Task",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "docs-only-contract-check": {
+      "category": "governance-readonly",
+      "requiredParams": [
+        "Task",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "ai-context-gateway-contract-check": {
+      "category": "governance-readonly",
+      "requiredParams": [
+        "Task",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "multi-agent-contract-check": {
+      "category": "governance-readonly",
+      "requiredParams": [
+        "Task",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
+    "obsidian-second-brain-contract-check": {
+      "category": "governance-readonly",
+      "requiredParams": [
+        "Task",
+        "OutDir",
+        "Strict",
+        "Json"
+      ],
+      "allowUnknownArgs": false
+    },
     "action-registry-check": {
       "category": "governance-readonly",
       "requiredParams": [
@@ -369,6 +508,16 @@
     "leaf-contract-check": "scripts/check-rccp-leaf-contract.ps1",
     "memory-layer-contract-check": "scripts/check-memory-layer-contract.ps1",
     "memory-briefing": "scripts/invoke-memory-briefing.ps1",
+    "memory-source-contract-check": "scripts/check-memory-source-contract.ps1",
+    "memory-ingest-plan": "scripts/check-memory-ingest-plan.ps1",
+    "memory-recall-check": "scripts/check-memory-recall-check.ps1",
+    "abstain-shape-check": "scripts/check-abstain-shape.ps1",
+    "adapter-pack-factory-check": "scripts/check-adapter-pack-factory.ps1",
+    "java-vue-contract-check": "scripts/check-java-vue-contract.ps1",
+    "docs-only-contract-check": "scripts/check-docs-only-contract.ps1",
+    "ai-context-gateway-contract-check": "scripts/check-ai-context-gateway-contract.ps1",
+    "multi-agent-contract-check": "scripts/check-multi-agent-contract.ps1",
+    "obsidian-second-brain-contract-check": "scripts/check-obsidian-second-brain-contract.ps1",
     "action-registry-check": "scripts/check-rccp-action-registry.ps1",
     "command-template-lint": "scripts/check-command-template-lint.ps1",
     "project-onboard": "scripts/check-project-onboard.ps1",

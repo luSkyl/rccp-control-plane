@@ -1,0 +1,43 @@
+{
+  "machineTag": "RCCP_ADAPTER_PACK_TEMPLATE_V1",
+  "packId": "ai-context-gateway",
+  "packName": "AI Context Gateway Adapter Pack",
+  "version": "V1",
+  "status": "active",
+  "owner": "governance-owner",
+  "stack": [
+    "ai-context"
+  ],
+  "scope": "Prompt templates, source-backed context assembly, abstain behavior, and optional retrieval boundaries for LLM-assisted repositories.",
+  "nonGoals": [
+    "model provider",
+    "vector service",
+    "private historical memory",
+    "RCCP core task lifecycle"
+  ],
+  "requiredArtifacts": [
+    "guidePath",
+    "manifestPath",
+    "exampleRoot",
+    "checkScriptPath"
+  ],
+  "requiredActions": [
+    "ai-context-gateway-contract-check"
+  ],
+  "verificationOrder": [
+    "guide",
+    "manifest",
+    "example",
+    "check",
+    "dispatch",
+    "ci",
+    "rollout"
+  ],
+  "exampleRoot": "examples/ai-context-gateway-repo",
+  "guidePath": "docs/adapters/ai-context-gateway.md",
+  "manifestPath": "adapters/ai-context-gateway.json",
+  "checkScriptPath": "scripts/check-ai-context-gateway-contract.ps1",
+  "releaseNotes": [
+    "AI context gateway adapters get a fail-closed context assembly pack with offline verification."
+  ]
+}

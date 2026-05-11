@@ -1,7 +1,7 @@
 {
   "machineTag": "RCCP_KIT_MANIFEST_V1",
-  "generatedAt": "2026-05-09T17:30:00+08:00",
-  "kitVersion": "2026.05.09-v3b-rollout",
+  "generatedAt": "2026-05-11T21:25:00+08:00",
+  "kitVersion": "2026.05.11-v3d-pack-productization",
   "contractVersion": "V1",
   "canonicalEntry": "scripts/rccp/rccp.ps1",
   "compatibility": {
@@ -16,6 +16,10 @@
       "project-governance-check",
       "rccp-kit-compat-check",
       "command-template-lint",
+      "adapter-pack-factory-check",
+      "java-vue-contract-check",
+      "docs-only-contract-check",
+      "ai-context-gateway-contract-check",
       "rccp-kit-rollout-check",
       "resume-check",
       "ownership-check",
@@ -25,8 +29,7 @@
   "releaseNotes": [
     "V3-B rollout hardening: project-local evidence roots are the default for project checks.",
     "Adapter contracts are machine-checkable.",
-    "Rollback drill, CI regression, onboarding SOP, and command template lint are part of rollout acceptance."
-    ,
+    "Rollback drill, CI regression, onboarding SOP, adapter pack factory, adapter packs, and command template lint are part of rollout acceptance.",
     "Profile-aware strictness separates staging extraction, adopter onboarding, public release, and release-strict validation semantics."
   ],
   "evidence": {

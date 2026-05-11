@@ -36,3 +36,26 @@ absorbing source-project private history.
 Memory briefing never mutates runtime state, checkpoint state, ownership leases,
 policy bundles, or closeout evidence. It emits latest evidence only under the
 repository evidence directory and remains safe to run before deeper gates.
+
+## Adapter Bridge
+
+The public memory layer can point to optional downstream adapter contracts, but
+it does not make them a second runtime authority. For the ordered path that
+joins source-backed notes, context assembly, and bounded delegation, use
+`docs/adapters/context-and-coordination.md` together with
+`docs/adapters/obsidian-second-brain.md`, `docs/adapters/ai-context-gateway.md`,
+and the contracts under `docs/AI上下文/`.
+
+## Runtime Checks
+
+The public second-brain chain is intentionally offline and rebuildable:
+
+1. `obsidian-second-brain-contract-check` validates the adapter docs, source
+   schema, and example vault shape.
+2. `memory-source-contract-check` validates source-backed note metadata and
+   `source_path` coverage.
+3. `memory-ingest-plan` emits chunk candidates, `sourceFingerprint`,
+   `indexVersion`, and delta evidence without calling a vector service.
+4. `memory-recall-check` evaluates recall against generated candidates.
+5. `abstain-shape-check` verifies the fail-closed answer shape when recall
+   cannot support a claim.

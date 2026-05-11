@@ -1,0 +1,40 @@
+{
+  "machineTag": "RCCP_ADAPTER_PACK_TEMPLATE_V1",
+  "packId": "pack-template",
+  "packName": "<pack-name>",
+  "version": "V1",
+  "status": "draft",
+  "owner": "governance-owner",
+  "stack": [
+    "<java|vue|docs|obsidian|ai-context|multi-agent>"
+  ],
+  "scope": "<describe what this pack owns>",
+  "nonGoals": [
+    "<what this pack does not own>"
+  ],
+  "requiredArtifacts": [
+    "guidePath",
+    "manifestPath",
+    "exampleRoot",
+    "checkScriptPath"
+  ],
+  "requiredActions": [
+    "<pack-specific check action>"
+  ],
+  "verificationOrder": [
+    "guide",
+    "manifest",
+    "example",
+    "check",
+    "dispatch",
+    "ci",
+    "rollout"
+  ],
+  "exampleRoot": "examples/adapter-pack-template",
+  "guidePath": "docs/adapters/adapter-pack-factory.md",
+  "manifestPath": "adapters/adapter-pack-template.json",
+  "checkScriptPath": "scripts/check-adapter-pack-factory.ps1",
+  "releaseNotes": [
+    "Replace placeholders with the concrete adapter pack you are shipping."
+  ]
+}

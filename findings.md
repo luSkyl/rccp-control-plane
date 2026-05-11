@@ -39,3 +39,62 @@
 - `rccp-kit-rollout-check` now captures install-smoke task-start/task-end output and fails if maintenance unavailable/skipped warnings return.
 - Empty-target install smoke now shows `progress-doc-auto-compact`, `governance-doc-auto-compact`, and `auto-commit-govern` all executing with `pass=True`.
 - `rccp-kit-rollout-check` now fails on maintenance unavailable/skipped warnings if they reappear, so install smoke is warning-free, not just exit-code clean.
+
+## Continuous Kit Polish Findings
+
+- Existing-capability probe for the polish loop returned `EXISTING_CAPABILITY_CONFIRMED`, so the next improvement should refine the current RCCP runtime instead of adding a new control plane.
+- `rccp status -Task "continuous-kit-polish"` selected the intended task, but plain `rccp status` initially selected older task `root-cause-closure-protocol-hardening`.
+- The projection already contained `continuous-kit-polish` with the latest `updatedAt`, so the residual was not missing events; it was default selection by hashtable value order in `Publish-RccpEvidenceCard` and `Publish-RccpExecutionCard`.
+- The minimal repair is a shared projection task selector that honors an explicit `-Task` and otherwise selects the task with the newest `updatedAt`.
+- After the repair, plain `rccp status` and task-scoped `rccp status -Task "continuous-kit-polish"` both report `continuous-kit-polish`.
+
+## Evidence Path Cleanup Findings
+
+- `rccp-closeout-sidecar-latest.json` already stores closeout `evidencePaths` without embedded quotes.
+- `final-recap-check-latest.json` stored the same style of paths as `"docs/治理/最新态/..."` with literal quote characters, so the drift was in final recap path expansion rather than the core sidecar path model.
+- Direct `check-final-recap-check.ps1 -EvidencePaths "a","b"` and routed `rccp.ps1 -Action final-recap-check -EvidencePaths "a","b"` both reproduced quoted JSON evidence paths before the fix.
+- `Expand-PathList` now strips repeated wrapper single/double quotes after splitting on comma or semicolon.
+- Focused after-fix checks show direct, routed, and deliberately nested-quoted invocations all emit clean evidence path values.
+
+## Recap OutDir Metadata Findings
+
+- `final-recap-check -OutDir evidence/latest/tmp-recap-outdir-before` wrote output files to the custom directory but the summary fields `latestJson`, `latestMarkdown`, `taskJson`, and `taskMarkdown` still pointed at `docs/治理/最新态/...`.
+- Default `OutDir` should continue to self-report `docs/治理/最新态/...`, while custom `OutDir` should self-report the actual custom output paths.
+- `final-recap-check` now derives those four summary fields from the actual output path variables and normalizes path separators to `/`.
+- Focused after-fix checks confirm custom `OutDir` reports `evidence/latest/tmp-recap-outdir-after/...` and default `OutDir` still reports `docs/治理/最新态/...`.
+
+## Multi-Agent Closure Findings
+
+- The repository already had sub-agent primitives before this round: `execution-card`, `lease-acquire`, `ownership-claim`, `Test-RccpWorkOrderContract`, and the `rccp-agent-task-graph-schema` invariant `sub_agent_must_not_closeout`.
+- The missing layer was public packaging, not runtime capability: no dedicated multi-agent workflow doc, work-order schema, example repo, or dedicated contract check existed on the public surface.
+- The new public boundary should stay evidence-first and fail closed on unauthorized paths or sub-agent closeout.
+- Installing the new workflow docs into `.rccp/docs` is useful for adopter visibility, but the example repo remains a source-surface artifact rather than a shipped runtime dependency.
+
+## Adapter Pack Factory Closure Findings
+
+- The pack factory now has a public guide, schema, template manifest, example repo, contract check, release checklist entry, CI gate, and rollout evidence path.
+- Empty-target install smoke initially failed because the installed bundle did not include the source repo's root `README`, release checklist, or CI workflow; the fix was to keep those as source-surface checks and skip them when the pack check runs inside an installed kit.
+- `install.ps1` now copies `adapters/` and `examples/` so the installed kit can validate the adapter-pack template shape instead of only the docs shell.
+- The parser sweep surfaced a broken `scripts/check-existing-capability-probe.ps1`; it was rewritten into a clean probe so the repo-wide syntax check is green again.
+- `closeout-atomic` now passes with the updated final answer draft and the task is fully closed out.
+
+## Adapter Pack Productization Findings
+
+- `java-vue`, `docs-only`, and `ai-context-gateway` were the remaining useful families that had design or placeholder surfaces but not full pack productization.
+- The new pack guides and manifests turn those families into the same guide/manifest/example/check shape as the existing factory and Obsidian/multi-agent surfaces.
+- The adapter index, README, release checklist, help text, CI workflow, kit manifest, and rollout checks now name the new pack checks explicitly so they are not just documented but enforceable.
+- `rccp-kit-rollout-check` now includes the new pack evidence paths and runs the new pack checks in the install smoke.
+- `closeout-atomic` now passes with the English recap-field draft for the current productization task.
+
+## Context Productization Findings
+
+- The repository now has a unified `docs/adapters/context-and-coordination.md` path that ties together Obsidian, memory, AI context gateway, and multi-agent adoption.
+- `docs/adapters/README.md`, `README.md`, `docs/release-checklist.md`, `docs/memory-layer.md`, `docs/AI上下文/README.md`, and `docs/multi-agent-workflow.md` now point at the same ordered context/coordination path instead of presenting those surfaces as separate islands.
+- The example repos now state both the expected pass behavior and the fail-closed boundary, which makes the adapter surfaces easier to adopt without guessing the hidden rules.
+- The adapter-pack factory doc and template README now include `release checklist` in the productization loop, and the check script accepts the updated lifecycle wording.
+- The release checklist now uses the public action name `thin-entry-check`, and `rccp-kit-rollout-check` now runs that check inside the installed-kit smoke instead of relying only on source checkout evidence.
+- A parallel rollout run briefly saw stale adapter-pack-factory evidence, but rerunning the factory check sequentially refreshed the latest evidence and restored rollout PASS.
+
+## perfect-solution-layered-protocol
+- Existing probe only had binary delta/greenfield behavior; added response-mode signals for v1 delta, v2 external/GitHub authorization, and v3 greenfield authorization.
+- Answer shape check now treats layered answers as stricter: v1/v2/v3, authorization, rollback/risk, and acceptance gate must be present when layered protocol appears.

@@ -73,10 +73,14 @@ function Invoke-InstallSmoke {
         targetRoot = $tempRoot
         helpExit = -1
         registryExit = -1
+        thinEntryExit = -1
+        adapterPackFactoryExit = -1
         taskStartExit = -1
         taskEndExit = -1
         helpOutput = ""
         registryOutput = ""
+        thinEntryOutput = ""
+        adapterPackFactoryOutput = ""
         taskStartOutput = ""
         taskEndOutput = ""
         detail = ""
@@ -101,6 +105,21 @@ function Invoke-InstallSmoke {
         $registry = Invoke-CapturedStep -CommandPath (Join-Path $tempRoot "rccp.ps1") -Arguments @("-Action", "action-registry-check", "-Task", "install-smoke", "-RequireAllLeafScripts", "-Strict")
         $result.registryExit = $registry.exit
         $result.registryOutput = $registry.output
+        $thinEntry = Invoke-CapturedStep -CommandPath (Join-Path $tempRoot "rccp.ps1") -Arguments @("-Action", "thin-entry-check", "-Task", "install-smoke", "-Strict")
+        $result.thinEntryExit = $thinEntry.exit
+        $result.thinEntryOutput = $thinEntry.output
+        $adapterPackFactory = Invoke-CapturedStep -CommandPath (Join-Path $tempRoot "rccp.ps1") -Arguments @("-Action", "adapter-pack-factory-check", "-Task", "install-smoke", "-Strict")
+        $result.adapterPackFactoryExit = $adapterPackFactory.exit
+        $result.adapterPackFactoryOutput = $adapterPackFactory.output
+        $javaVue = Invoke-CapturedStep -CommandPath (Join-Path $tempRoot "rccp.ps1") -Arguments @("-Action", "java-vue-contract-check", "-Task", "install-smoke", "-Strict")
+        $result.javaVueExit = $javaVue.exit
+        $result.javaVueOutput = $javaVue.output
+        $docsOnly = Invoke-CapturedStep -CommandPath (Join-Path $tempRoot "rccp.ps1") -Arguments @("-Action", "docs-only-contract-check", "-Task", "install-smoke", "-Strict")
+        $result.docsOnlyExit = $docsOnly.exit
+        $result.docsOnlyOutput = $docsOnly.output
+        $aiContextGateway = Invoke-CapturedStep -CommandPath (Join-Path $tempRoot "rccp.ps1") -Arguments @("-Action", "ai-context-gateway-contract-check", "-Task", "install-smoke", "-Strict")
+        $result.aiContextGatewayExit = $aiContextGateway.exit
+        $result.aiContextGatewayOutput = $aiContextGateway.output
         $taskStart = Invoke-CapturedStep -CommandPath (Join-Path $tempRoot "rccp.ps1") -Arguments @("-Action", "task-start", "-Task", "install-smoke", "-TargetPaths", "README.md")
         $result.taskStartExit = $taskStart.exit
         $result.taskStartOutput = $taskStart.output
@@ -126,6 +145,11 @@ function Invoke-InstallSmoke {
         $result.ok = (
             $result.helpExit -eq 0 -and
             $result.registryExit -eq 0 -and
+            $result.thinEntryExit -eq 0 -and
+            $result.adapterPackFactoryExit -eq 0 -and
+            $result.javaVueExit -eq 0 -and
+            $result.docsOnlyExit -eq 0 -and
+            $result.aiContextGatewayExit -eq 0 -and
             $result.taskStartExit -eq 0 -and
             $result.taskEndExit -eq 0 -and
             $warningHits.Count -eq 0
@@ -152,6 +176,17 @@ $requiredEvidence = @(
     "docs/治理/最新态/action-registry-check-latest.json",
     "docs/治理/最新态/rccp-leaf-contract-check-all-latest.json",
     "docs/治理/最新态/memory-layer-contract-latest.json",
+    "docs/治理/最新态/memory-briefing-latest.json",
+    "docs/治理/最新态/obsidian-second-brain-contract-check-latest.json",
+    "docs/治理/最新态/memory-source-contract-check-latest.json",
+    "docs/治理/最新态/memory-ingest-plan-latest.json",
+    "docs/治理/最新态/memory-recall-check-latest.json",
+    "docs/治理/最新态/abstain-shape-check-latest.json",
+    "docs/治理/最新态/adapter-pack-factory-check-latest.json",
+    "docs/治理/最新态/java-vue-contract-check-latest.json",
+    "docs/治理/最新态/docs-only-contract-check-latest.json",
+    "docs/治理/最新态/ai-context-gateway-contract-check-latest.json",
+    "docs/治理/最新态/multi-agent-contract-check-latest.json",
     "docs/治理/最新态/rccp-thin-entry-check-latest.json",
     "docs/治理/最新态/command-template-lint-latest.json",
     "docs/治理/最新态/action-reference-surface-check-latest.json",
@@ -212,7 +247,7 @@ $ciWorkflow = ".github/workflows/rccp-ci.yml"
 Add-Check -Checks $checks -Name "ci-workflow-present" -Ok (Test-Path -LiteralPath $ciWorkflow -PathType Leaf) -Detail $ciWorkflow
 
 $installSmoke = Invoke-InstallSmoke -RepoRoot $repoRoot
-Add-Check -Checks $checks -Name "empty-repo-install-smoke" -Ok ([bool]$installSmoke.ok) -Detail ("helpExit={0}; registryExit={1}; {2}" -f $installSmoke.helpExit, $installSmoke.registryExit, $installSmoke.detail)
+Add-Check -Checks $checks -Name "empty-repo-install-smoke" -Ok ([bool]$installSmoke.ok) -Detail ("helpExit={0}; registryExit={1}; thinEntryExit={2}; adapterPackFactoryExit={3}; javaVueExit={4}; docsOnlyExit={5}; aiContextGatewayExit={6}; {7}" -f $installSmoke.helpExit, $installSmoke.registryExit, $installSmoke.thinEntryExit, $installSmoke.adapterPackFactoryExit, $installSmoke.javaVueExit, $installSmoke.docsOnlyExit, $installSmoke.aiContextGatewayExit, $installSmoke.detail)
 
 $failedChecks = @($checks.ToArray() | Where-Object { -not [bool]$_.ok })
 $pass = ($failedChecks.Count -eq 0)

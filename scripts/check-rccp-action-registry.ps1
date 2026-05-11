@@ -132,7 +132,12 @@ if ($requiredLeafActions.Count -eq 0) {
         "rccp-leaf-contract-check",
         "leaf-contract-check",
         "memory-layer-contract-check",
+        "memory-source-contract-check",
+        "memory-ingest-plan",
+        "memory-recall-check",
+        "abstain-shape-check",
         "memory-briefing",
+        "obsidian-second-brain-contract-check",
         "action-registry-check"
     )
 }
