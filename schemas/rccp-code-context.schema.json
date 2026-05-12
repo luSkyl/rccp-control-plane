@@ -1,0 +1,34 @@
+{
+  "machineTag": "RCCP_CODE_CONTEXT_SCHEMA_V1",
+  "generatedAt": "2026-05-11T23:20:00+08:00",
+  "version": "V1",
+  "description": "Schema for optional source-backed code context packs used before RCCP work-order splitting.",
+  "requiredFields": [
+    "machineTag",
+    "generatedAt",
+    "task",
+    "provider",
+    "targetPaths",
+    "relatedFiles",
+    "symbolHints",
+    "dependencyHints",
+    "impactSummary",
+    "ownershipSlices",
+    "recommendedVerifierChecks",
+    "graphConfidence",
+    "contextPackPath"
+  ],
+  "providers": [
+    "builtin-lite",
+    "gitnexus-mcp",
+    "disabled"
+  ],
+  "confidenceLevels": [
+    "low",
+    "medium",
+    "high"
+  ],
+  "closeoutAuthority": false,
+  "externalDependencyRequired": false
+}
+

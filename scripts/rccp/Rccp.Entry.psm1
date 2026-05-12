@@ -85,7 +85,7 @@ function Get-RccpEntryDispatchMap {
     $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot "../..")).Path
     foreach ($dispatchPath in @(
             (Join-Path $repoRoot "policies/rccp-entry-dispatch.json"),
-            (Join-Path $repoRoot "docs/治理/策略/rccp-entry-dispatch.json")
+            (Join-Path $repoRoot "docs/婵炲矁宕甸幃?缂佹稒鐗滈弳?rccp-entry-dispatch.json")
         )) {
         if (-not (Test-Path -LiteralPath $dispatchPath -PathType Leaf)) { continue }
         try {
@@ -98,6 +98,7 @@ function Get-RccpEntryDispatchMap {
     return [ordered]@{
         "existing-capability-probe" = "scripts/check-existing-capability-probe.ps1"
         "existing-capability-answer-shape-check" = "scripts/check-existing-capability-answer-shape.ps1"
+        "perfect-solution-answer-template-check" = "scripts/check-existing-capability-answer-shape.ps1"
         "final-recap-check" = "scripts/check-final-recap-check.ps1"
         "final-reply-contract-check" = "scripts/check-final-reply-contract-check.ps1"
         "thin-entry-check" = "scripts/check-rccp-thin-entry.ps1"
@@ -110,6 +111,10 @@ function Get-RccpEntryDispatchMap {
         "memory-recall-check" = "scripts/check-memory-recall-check.ps1"
         "abstain-shape-check" = "scripts/check-abstain-shape.ps1"
         "obsidian-second-brain-contract-check" = "scripts/check-obsidian-second-brain-contract.ps1"
+        "code-context-snapshot" = "scripts/check-code-context-snapshot.ps1"
+        "code-context-contract-check" = "scripts/check-code-context-contract.ps1"
+        "runtime-bridge-contract-check" = "scripts/check-runtime-bridge-contract.ps1"
+        "external-capability-license-check" = "scripts/check-external-capability-license.ps1"
         "action-registry-check" = "scripts/check-rccp-action-registry.ps1"
         "command-template-lint" = "scripts/check-command-template-lint.ps1"
         "project-onboard" = "scripts/check-project-onboard.ps1"
@@ -148,7 +153,7 @@ function New-RccpCliArgs {
         [string]$SubAgentEvidence = "",
         [string]$MainIntegrationResult = "",
         [string]$CloseoutEvidence = "",
-        [string]$BlueprintRoot = "docs/治理/方案蓝图",
+        [string]$BlueprintRoot = "",
         [string]$BlueprintPath = "",
         [string]$CommandText = "",
         [string]$CommandPath = "",
@@ -455,7 +460,13 @@ function Invoke-RccpLeafAction {
             $leafArgs = @()
             if (@($BoundArgs.RemainingArgs) -contains "-Rebuild") { $leafArgs += "-Force" }
         }
-        "existing-capability-probe" {
+        "perfect-solution-answer-template-check" {
+            $translated = New-Object System.Collections.Generic.List[string]
+            foreach ($arg in @($leafArgs)) { $translated.Add([string]$arg) | Out-Null }
+            $translated.Add("-TemplateMode") | Out-Null
+            $translated.Add("PerfectSolutionV0V3") | Out-Null
+            $leafArgs = @($translated.ToArray())
+        }        "existing-capability-probe" {
             $translated = New-Object System.Collections.Generic.List[string]
             if (-not [string]::IsNullOrWhiteSpace([string]$BoundArgs.Task)) {
                 $translated.Add("-Task") | Out-Null
@@ -607,7 +618,7 @@ function Invoke-RccpEntry {
         [string]$SubAgentEvidence = "",
         [string]$MainIntegrationResult = "",
         [string]$CloseoutEvidence = "",
-        [string]$BlueprintRoot = "docs/治理/方案蓝图",
+        [string]$BlueprintRoot = "",
         [string]$BlueprintPath = "",
         [string]$CommandText = "",
         [string]$CommandPath = "",

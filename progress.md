@@ -128,3 +128,7 @@ SKILLS_TRACE: using-superpowers; brainstorming; existing-capability-delta-answer
 2026-05-11T20:58:53.6009996+08:00 perfect-solution-layered-protocol: implemented probe response modes, layered answer-shape requirements, and README capability-map update.
 2026-05-11T21:08:49.4506125+08:00 perfect-solution-layered-protocol: validation PASS for parser, noauth/external/greenfield probe cases, layered answer-shape strict check, leaf-contract, action-registry, and action-reference-surface gates.
 2026-05-11T21:16:59.1709709+08:00 perfect-solution-layered-protocol: closeout-atomic PASS after final-recap/final-reply encoding hardening.
+
+SKILLS_TRACE: using-superpowers; existing-capability-delta-answer; backend-delivery; cc-skill-coding-standards; repeatable-task-bootstrap; repeatable-closeout-evidence; task=perfect-solution-v0-v3-template; timestamp=2026-05-12T00:03:57.8039708+08:00
+2026-05-12T00:15:01+08:00 perfect-solution-v0-v3-template: implemented canonical V0/V1/V2/V2.5/V3 perfect-solution template check by reusing scripts/check-existing-capability-answer-shape.ps1, wiring perfect-solution-answer-template-check through RCCP dispatch, help, README, and the existing-capability-delta-answer skill.
+2026-05-12T00:15:01+08:00 perfect-solution-v0-v3-template: validation PASS for Chinese V0-V3 sample, perfect-solution-answer-template-check, existing-capability-answer-shape-check, parser checks, dispatch JSON parse, leaf-contract, action-registry, and action-reference-surface gates.

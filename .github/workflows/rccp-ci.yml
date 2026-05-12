@@ -46,6 +46,10 @@ jobs:
           pwsh -NoProfile -File .\rccp.ps1 -Action memory-recall-check -Task "ci" -EvalPath "examples/obsidian-second-brain-repo/eval-cases/memory-recall-cases.json" -Strict
           pwsh -NoProfile -File .\rccp.ps1 -Action abstain-shape-check -Task "ci" -AnswerPath "examples/obsidian-second-brain-repo/eval-cases/abstain-answer.md" -Strict
           pwsh -NoProfile -File .\rccp.ps1 -Action multi-agent-contract-check -Task "ci" -Strict
+          pwsh -NoProfile -File .\rccp.ps1 -Action code-context-snapshot -Task "ci" -TargetPaths "docs/adapters" -Strict
+          pwsh -NoProfile -File .\rccp.ps1 -Action code-context-contract-check -Task "ci" -Strict
+          pwsh -NoProfile -File .\rccp.ps1 -Action runtime-bridge-contract-check -Task "ci" -Strict
+          pwsh -NoProfile -File .\rccp.ps1 -Action external-capability-license-check -Task "ci" -Strict
           pwsh -NoProfile -File .\rccp.ps1 -Action project-onboard -Task "ci" -Strict
           pwsh -NoProfile -File .\rccp.ps1 -Action project-governance-check -Task "ci" -Strict
           pwsh -NoProfile -File .\rccp.ps1 -Action rccp-kit-rollout-check -Task "ci" -Strict

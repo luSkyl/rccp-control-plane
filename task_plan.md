@@ -138,3 +138,13 @@ Goal: unify the Obsidian, memory, AI context gateway, multi-agent, and adapter-p
 - [complete] Update README capability map.
 - [in_progress] Run targeted gates and closeout.
 - [complete] Closeout-atomic passed with final-reply evidence.
+
+## Current Execution: perfect-solution-v0-v3-template
+
+Goal: make the V0/V1/V2/V2.5/V3 layout the canonical perfect-solution answer structure and gate it through RCCP.
+
+- [complete] Replace the generic nine-section perfect-solution answer expectation with V0/V1/V2/V2.5/V3 in the existing-capability skill.
+- [complete] Reuse the tracked answer-shape checker and add a dedicated perfect-solution-answer-template-check path.
+- [complete] Wire RCCP dispatch, policy mirrors, help text, and README to expose the new template gate.
+- [complete] Add Chinese template compatibility and authorization-aware GitHub/V3-B handling.
+- [complete] Validate with focused template checks, parser/JSON checks, leaf-contract, action-registry, and action-reference-surface gates.

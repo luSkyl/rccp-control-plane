@@ -58,7 +58,7 @@ This repository declares the `staging-extraction` profile. That means:
 | Project adoption | `project-onboard`, `project-governance-check`, `rccp-kit-compat-check`, and `rccp-kit-rollout-check`. |
 | Registry hygiene | `action-registry-check`, `rccp-leaf-contract-check`, `thin-entry-check`, and `action-reference-surface-check`. |
 | Command safety | `command-template-lint` validates command snippets before they are copied into docs, CI, or handoff notes. |
-| Existing capability answers | `existing-capability-probe` and `existing-capability-answer-shape-check` help avoid redesigning a capability that already exists, while preserving a layered v1/v2/v3 response path for authorized GitHub or greenfield exploration. |
+| Existing capability answers | `existing-capability-probe` and `existing-capability-answer-shape-check` help avoid redesigning a capability that already exists, while preserving a V0/V1/V2/V2.5/V3 perfect-solution response path with authorization-aware benchmarking and convergence gates. This is the canonical template for “perfect / 最优 / v1-v3” answers. |
 | Memory layer | `memory-layer-contract-check`, `memory-briefing`, `memory-source-contract-check`, `memory-ingest-plan`, `memory-recall-check`, and `abstain-shape-check` keep context loading, ingest evidence, recall evaluation, and abstain behavior auditable. |
 | Obsidian/LLM adapter | `obsidian-second-brain-contract-check`, public adapter docs, source metadata rules, vector-ingestion rules, and abstain guidance describe how downstream projects can add an auditable second-brain layer without changing RCCP core. |
 | Release hygiene | `tools/sanitize-check.ps1 -Strict`, parser checks, empty-repo install smoke, and release checklist gates. |
@@ -153,7 +153,7 @@ pwsh -NoProfile -File .\tools\sanitize-check.ps1 -Strict
 ### 6) Close out with explicit final-answer evidence
 
 ```powershell
-pwsh -NoProfile -File .\rccp.ps1 -Action closeout-atomic -Task "update-readme" -TargetPaths "README.md" -AnswerPath "docs/治理/最新态/final-answer-draft-latest.md" -Mode Staged -GateProfile Fast
+pwsh -NoProfile -File .\rccp.ps1 -Action closeout-atomic -Task "update-readme" -TargetPaths "README.md" -AnswerPath "docs/娌荤悊/鏈€鏂版€?final-answer-draft-latest.md" -Mode Staged -GateProfile Fast
 ```
 
 `closeout-atomic` intentionally requires the final reply draft through
@@ -218,13 +218,13 @@ schemas/                 Public machine-readable contracts
 adapters/                Optional project profiles
 examples/                Minimal adopter repositories
 docs/adapters/           Public optional adapter guides
-docs/AI上下文/           Public LLM context, source-path, ingestion, and abstain contracts
+docs/AI涓婁笅鏂?           Public LLM context, source-path, ingestion, and abstain contracts
 docs/                    Concepts, evidence model, policy authoring, release notes
 tools/                   Staging and release hygiene utilities
 evidence/latest/         Local staging evidence, ignored by git
 ```
 
-Compatibility mirrors under `docs/治理/策略/` are kept for current PowerShell
+Compatibility mirrors under `docs/娌荤悊/绛栫暐/` are kept for current PowerShell
 core compatibility and should stay synchronized with `policies/`.
 
 ## Examples
@@ -257,7 +257,7 @@ core compatibility and should stay synchronized with `policies/`.
 - [Java + Vue Adapter](docs/adapters/java-vue.md)
 - [Docs-Only Adapter](docs/adapters/docs-only.md)
 - [Adapter Pack Factory](docs/adapters/adapter-pack-factory.md)
-- [AI Context Contracts](docs/AI上下文/README.md)
+- [AI Context Contracts](docs/AI涓婁笅鏂?README.md)
 - [Multi-Agent Workflow](docs/multi-agent-workflow.md)
 - [Release Checklist](docs/release-checklist.md)
 - [Minimal Example](examples/minimal-repo/README.md)

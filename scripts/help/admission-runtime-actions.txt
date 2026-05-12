@@ -9,6 +9,7 @@
 - closeout-atomic -Task "<task>" -AnswerPath <current-draft> | -AnswerText "<reply>": preferred one-shot closeout path.
 - existing-capability-probe -Task "<task>" -Why "<request text>": read-only evidence probe for existing-capability routing.
 - existing-capability-answer-shape-check -Why "<request text>" -AnswerText "<answer>" [-AnswerPath <path>] [-Strict]: read-only ECDAP answer-shape lint.
+- perfect-solution-answer-template-check -Why "<request text>" -AnswerText "<answer>" [-AnswerPath <path>] [-Strict]: validates the V0/V1/V2/V2.5/V3 perfect-solution final-answer template.
 - command-template-lint -CommandText "<command>" [-CommandPath <path>] [-Strict]: execution-before-template lint for shell commands.
 - action-reference-surface-check: verifies that public help, README, manifest, and dispatch references stay aligned with the shipped surface after action or manifest changes.
 - final-recap-check -Task "<task>": validates recap evidence before final closeout.

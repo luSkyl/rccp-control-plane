@@ -1,0 +1,41 @@
+{
+  "machineTag": "RCCP_RUNTIME_BRIDGE_SCHEMA_V1",
+  "generatedAt": "2026-05-11T23:20:00+08:00",
+  "version": "V1",
+  "description": "Schema for optional external agent runtime bridges such as Multica-style boards or daemons.",
+  "requiredFields": [
+    "bridgeId",
+    "provider",
+    "operation",
+    "workOrderId",
+    "actorRole",
+    "status",
+    "evidencePaths",
+    "closeoutAllowed"
+  ],
+  "operations": [
+    "createTask",
+    "claimTask",
+    "streamStatus",
+    "reportBlocker",
+    "completeTask"
+  ],
+  "statuses": [
+    "queued",
+    "claimed",
+    "running",
+    "blocked",
+    "handoff-ready",
+    "rejected",
+    "accepted"
+  ],
+  "actorRoles": [
+    "main-agent",
+    "worker-agent",
+    "verifier-agent",
+    "external-runtime"
+  ],
+  "closeoutAllowedForExternalRuntime": false,
+  "externalDependencyRequired": false
+}
+

@@ -88,6 +88,21 @@ The existing runtime invariant is `sub_agent_must_not_closeout`; the matching
 PowerShell guard is `Test-RccpWorkOrderContract` in
 `scripts/rccp/Rccp.Core.psm1`.
 
+
+## Context and Runtime Bridges
+
+Before splitting complex work, the main agent should run `code-context-snapshot`
+to create a source-backed context pack. Work orders may reference the pack with
+`contextPackPath`, summarize the `impactSummary`, and copy focused
+`recommendedVerifierChecks` into acceptance criteria. The Code Context Adapter is
+optional and must fall back to existing RCCP evidence gates when graph evidence
+is unavailable.
+
+The optional Runtime Bridge reserves a Multica-style external status or worker
+surface. External runtimes may mirror work orders and return handoff evidence,
+but they are never closeout authorities and cannot bypass ownership or verifier
+checks.
+
 ## Public Verification
 
 Run the contract check before release:

@@ -98,3 +98,10 @@
 ## perfect-solution-layered-protocol
 - Existing probe only had binary delta/greenfield behavior; added response-mode signals for v1 delta, v2 external/GitHub authorization, and v3 greenfield authorization.
 - Answer shape check now treats layered answers as stricter: v1/v2/v3, authorization, rollback/risk, and acceptance gate must be present when layered protocol appears.
+
+## perfect-solution-v0-v3-template Findings
+
+- Root cause: the previous answer-shape governance allowed a generic nine-section diagnosis layout, so "perfect solution" answers were not forced into the user's expected V0/V1/V2/V2.5/V3 visual structure.
+- Minimal repair: reuse the tracked existing capability answer-shape checker instead of adding another untracked leaf script, and add a dedicated perfect-solution-answer-template-check action with PerfectSolutionV0V3 mode.
+- Compatibility fix: template validation now accepts the user's Chinese section labels and keeps external/GitHub benchmarking authorization-aware instead of assuming every perfect方案 is greenfield.
+- Guardrail: V3-B evidence requirements now trigger only when the final current status actually claims V3-B, so a V3-A/V3-B status legend does not falsely fail the template.
