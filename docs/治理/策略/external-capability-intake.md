@@ -19,6 +19,7 @@ redesign is approved.
 | --- | --- | --- | --- |
 | GitNexus | concept and interface shape | Code Context Adapter, repo graph snapshot, MCP provider option | no source copy; no hard dependency |
 | Multica | product model and optional bridge shape | agent runtime bridge, status stream, blocker reporting | no hosted platform import; no closeout authority |
+| addyosmani/agent-skills | method fragments only | existing local skills and reference cards | no top-level skill import; no duplicate control plane |
 
 ## License Gate
 
@@ -45,4 +46,3 @@ An external capability is accepted only when:
 - The implementation has a fallback when the external tool is unavailable.
 - License risk is recorded in evidence.
 - CI gates remain runnable without network access or external daemons.
-

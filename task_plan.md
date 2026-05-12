@@ -53,6 +53,16 @@ Goal: make final recap machine-readable path metadata match the actual output di
 - [complete] Run default/custom OutDir regressions and release-surface gates.
 - [complete] Close out with final-answer evidence.
 
+## Current Execution: agent-skills-selective-absorption
+
+Goal: selectively absorb high-value patterns from `addyosmani/agent-skills` into the existing local skill system without importing a duplicate control plane.
+
+- [complete] Freeze the V3-A absorption plan, source evidence, and local target skills.
+- [complete] Land P0 references and guardrails for source-first, doubt-first, and browser-evidence discipline.
+- [complete] Land P1 references and guardrails for migration/deprecation and lightweight ADR discipline.
+- [complete] Validate trigger conflicts, reference reachability, and non-regression constraints.
+- [complete] Close out with explicit PUBLISH/DEFER/REJECT decisions and evidence paths.
+
 ## Phases
 
 - [complete] Establish current repo state, skill constraints, and existing-capability verdict.

@@ -105,3 +105,17 @@
 - Minimal repair: reuse the tracked existing capability answer-shape checker instead of adding another untracked leaf script, and add a dedicated perfect-solution-answer-template-check action with PerfectSolutionV0V3 mode.
 - Compatibility fix: template validation now accepts the user's Chinese section labels and keeps external/GitHub benchmarking authorization-aware instead of assuming every perfect方案 is greenfield.
 - Guardrail: V3-B evidence requirements now trigger only when the final current status actually claims V3-B, so a V3-A/V3-B status legend does not falsely fail the template.
+# agent-skills-selective-absorption findings
+
+- 2026-05-12T22:31:31+08:00: External source cloned read-only from `https://github.com/addyosmani/agent-skills` at commit `3ff4b51`; license observed as MIT.
+- External repository exposes 22 top-level skill groups. Local skill system already covers TDD, security review, frontend/backend delivery, code simplification, planning, governance closeout, and multi-agent verification.
+- Reusable delta is strongest in five areas: source-first evidence, doubt/adversarial review, browser DevTools evidence, deprecation/migration compatibility, and lightweight ADR capture.
+- Absorption must be repo-native: add small reference cards and short guardrails to existing skills; reject a parallel skill entrypoint, broad shipping automation, or duplicate frontend/security/TDD skills.
+
+## 2026-05-12 GitHub benchmark snapshot
+
+- External benchmark set used for the revised V2 answer: `anthropics/skills`, `addyosmani/agent-skills`, `vercel-labs/agent-skills`, `vercel-labs/skills`, `github/awesome-copilot`, `huggingface/skills`, `ComposioHQ/awesome-codex-skills`, and `sickn33/antigravity-awesome-skills`.
+- Best direct fit for selective absorption: `addyosmani/agent-skills`.
+- Best standards reference: `anthropics/skills`.
+- Best install/distribution reference: `vercel-labs/skills`.
+- Best broad ecosystem reference: `github/awesome-copilot` and `sickn33/antigravity-awesome-skills`.

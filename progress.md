@@ -132,3 +132,15 @@ SKILLS_TRACE: using-superpowers; brainstorming; existing-capability-delta-answer
 SKILLS_TRACE: using-superpowers; existing-capability-delta-answer; backend-delivery; cc-skill-coding-standards; repeatable-task-bootstrap; repeatable-closeout-evidence; task=perfect-solution-v0-v3-template; timestamp=2026-05-12T00:03:57.8039708+08:00
 2026-05-12T00:15:01+08:00 perfect-solution-v0-v3-template: implemented canonical V0/V1/V2/V2.5/V3 perfect-solution template check by reusing scripts/check-existing-capability-answer-shape.ps1, wiring perfect-solution-answer-template-check through RCCP dispatch, help, README, and the existing-capability-delta-answer skill.
 2026-05-12T00:15:01+08:00 perfect-solution-v0-v3-template: validation PASS for Chinese V0-V3 sample, perfect-solution-answer-template-check, existing-capability-answer-shape-check, parser checks, dispatch JSON parse, leaf-contract, action-registry, and action-reference-surface gates.
+SKILLS_TRACE: using-superpowers; governance-neat-check; skill-evolution-loop; planning-with-files; repeatable-closeout-evidence; task=agent-skills-selective-absorption; timestamp=2026-05-12T22:31:31+08:00
+
+2026-05-12T22:31:31+08:00 agent-skills-selective-absorption: user approved the V3-A selective absorption plan for addyosmani/agent-skills and explicitly authorized implementation through closeout.
+2026-05-12T22:31:31+08:00 agent-skills-selective-absorption: cloned external source read-only at commit 3ff4b51, confirmed MIT license text, and classified the reusable deltas as source-first, doubt-first, browser evidence, migration/deprecation, and lightweight ADR discipline.
+2026-05-12T22:40:00+08:00 agent-skills-selective-absorption: added five repo-native reference cards under local skills and linked them from existing-capability, planning, frontend, backend, DB migration, and docs-triplet workflows without adding new top-level skills.
+2026-05-12T22:44:00+08:00 agent-skills-selective-absorption: `skills-sync` is unavailable because the RCCP action was physically removed; recorded as a degraded sync path instead of creating or restoring a retired action.
+2026-05-12T22:44:00+08:00 agent-skills-selective-absorption: `rg` was denied by the environment during validation, so PowerShell `Select-String` was used for the equivalent safety checks.
+2026-05-12T22:55:00+08:00 agent-skills-selective-absorption: added the formal Chinese absorption proposal at `docs/治理/策略/agent-skills-selective-absorption-proposal.md` and registered addyosmani/agent-skills in the external capability intake matrix as method-fragment-only absorption.
+
+2026-05-12T23:05:00+08:00 agent-skills-selective-absorption: captured the GitHub benchmark snapshot for the revised V2 answer and kept the repo-native evidence trail in `findings.md`.
+
+2026-05-12T23:15:00+08:00 agent-skills-selective-absorption: created `docs/治理/策略/agent-skills-selective-absorption-v2-plan.md` as the canonical V0/V1/V2/V2.5/V3 benchmark-and-fusion plan.
